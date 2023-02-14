@@ -1,0 +1,21 @@
+{
+  "name": "carbon.js",
+  "version": "1.0.0",
+  "description": "A Carbon image generator from code",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest --watchAll --verbose --coverage",
+    "build": "tsc"
+  },
+  "keywords": [
+    "carbon",
+    "code",
+    "image",
+    "canvas"
+  ],
+  "author": "Pioupia",
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^29.4.2"
+  }
+}
