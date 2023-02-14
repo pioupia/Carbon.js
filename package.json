@@ -17,5 +17,8 @@
   "license": "MIT",
   "dependencies": {
     "jest": "^29.4.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0"
   }
 }
