@@ -13,5 +13,5 @@ Object.freeze(FlagsDataTypes);
 export interface CodePart {
     content: string
     type: typeof FlagsDataTypes
-    length: number
+    words: string[]
 }
