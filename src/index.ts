@@ -1,6 +1,11 @@
-import { CodePart } from "./types/common";
+import { CodeTokenized } from "./types/common";
+import hljs from "highlight.js";
 
-const test = true;
-export function parse(code: string): CodePart[] {
-    return [];
+export function parse(code: string): CodeTokenized {
+    const result = hljs.highlightAuto(code);
+    return {
+        language: result.language,
+        // @ts-ignore
+        parts: res._emitter.rootNode.children
+    };
 }
