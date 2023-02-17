@@ -5,7 +5,8 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "jest --watchAll --verbose --coverage",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "tsc && node ."
   },
   "keywords": [
     "carbon",
@@ -16,6 +17,11 @@
   "author": "Pioupia",
   "license": "MIT",
   "dependencies": {
+    "highlight.js": "^11.7.0",
     "jest": "^29.4.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.13.0"
   }
 }
