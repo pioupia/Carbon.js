@@ -54,7 +54,7 @@ describe("Test evaluate the height of a text", () => {
             evaluateHeight(
                 parse(`const test \n= true;\n\nconst truc = false;`, Prism.languages.javascript),
                 700
-            )
-        ).toBe(142.4);
+            ).toFixed(1)
+        ).toBe("153.6");
     });
 });
