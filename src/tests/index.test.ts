@@ -1,4 +1,4 @@
-import { parse } from "../util/common";
+import { evaluateHeight, parse } from "../util/common";
 import * as assert from "assert";
 import Prism from "prismjs";
 
@@ -36,5 +36,30 @@ describe("Test parse function", () => {
             parse("test", Prism.languages.javascript),
             ['test']
         );
+
+        console.log(evaluateHeight(
+            parse(`const test = true;`, Prism.languages.javascript),
+            700
+        ));
+    });
+});
+
+describe("Test evaluate the height of a text", () => {
+    it("First test", () => {
+       expect(
+           evaluateHeight(
+               parse(`const test = true;`, Prism.languages.javascript),
+               700
+           )
+       ).toBe(120);
+    });
+
+    it("Second test", () => {
+        expect(
+            evaluateHeight(
+                parse(`const test = true;\n\nconst truc = false;`, Prism.languages.javascript),
+                700
+            )
+        ).toBe(142.4);
     });
 });
