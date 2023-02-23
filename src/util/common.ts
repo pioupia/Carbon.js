@@ -2,7 +2,7 @@ import { createCanvas, loadImage, CanvasRenderingContext2D } from 'canvas';
 import Prism, { Grammar } from 'prismjs';
 import { ImageSizes } from '../types/common';
 import fs from "node:fs";
-import { colors } from '../themes/default';
+import { colors, TypeColors } from '../themes/default';
 
 function getCharHeight(metrics: TextMetrics) {
     return metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
@@ -83,7 +83,7 @@ function drawText(ctx: CanvasRenderingContext2D, charHeight: number,
                 cuttingIndex = lastIndexSpace;
             }
 
-            const printedText = text.slice(0, cuttingIndex).replace(/\n/g, '');
+            const printedText = (text.slice(0, cuttingIndex))?.replace(/\n/g, '');
             ctx.fillText(printedText, lastX - ctx.measureText(printedText).width, lastY);
 
             text = text.slice(cuttingIndex);
@@ -158,9 +158,13 @@ export function draw(data: (string | Prism.Token)[], width: number) {
 
     for (const part of data) {
         if (typeof part === "string") {
+            ctx.fillStyle = colors.DefaultForgroundColor;
             [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width);
         } else {
-            [lastX, lastY] = drawText(ctx, charHeight, part.content as string, lastX, lastY, width, part.length);
+            console.log({ type: part.type, content: part.content })
+            // @ts-ignore
+            ctx.fillStyle = TypeColors[part.type] || colors.DefaultForgroundColor;
+            [lastX, lastY] = drawText(ctx, charHeight, part.content.toString(), lastX, lastY, width, part.length);
         }
     }
 
@@ -171,5 +175,5 @@ export function draw(data: (string | Prism.Token)[], width: number) {
 }
 
 export function parse(code: string, language: Grammar) {
-    return Prism.tokenize(code, language);
+    return Prism.tokenize(code.trim(), language);
 }
