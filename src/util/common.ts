@@ -2,6 +2,7 @@ import { createCanvas, loadImage, CanvasRenderingContext2D } from 'canvas';
 import Prism, { Grammar } from 'prismjs';
 import { ImageSizes } from '../types/common';
 import fs from "node:fs";
+import { colors } from '../themes/default';
 
 function getCharHeight(metrics: TextMetrics) {
     return metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
@@ -46,8 +47,11 @@ function getHeightOfAText(ctx: CanvasRenderingContext2D, charHeight: number,
 
 export function evaluateHeight(data: (string | Prism.Token)[], width: number) {
     let lastX = ImageSizes.marginLeft;
-    let lastY = ImageSizes.marginTop * 2 + ImageSizes.headerHeight;
+    let lastY = ImageSizes.marginTop * 2 + ImageSizes.headerHeight + ImageSizes.headerBottomMargin;
+
     const ctx = createCanvas(200, 200).getContext('2d');
+    ctx.font = '16px';
+
     const charHeight = getCharHeight(ctx.measureText(']'));
 
     for (const part of data) {
@@ -103,15 +107,54 @@ function drawText(ctx: CanvasRenderingContext2D, charHeight: number,
     return [lastX, lastY];
 }
 
+function drawCircle(ctx: CanvasRenderingContext2D, leftPosition: number, topPosition: number, radius: number) {
+    ctx.beginPath();
+    ctx.arc(leftPosition, topPosition, radius, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.stroke();
+}
+
+function drawTheWindow(ctx: CanvasRenderingContext2D) {
+    ctx.lineWidth = .5;
+    const radius = (ImageSizes.headerHeight - .5) / 2;
+    const leftPosition = ImageSizes.marginLeft + radius;
+    const topPosition = ImageSizes.marginTop + radius;
+
+    ctx.fillStyle = colors.CloseWindowColor;
+    ctx.strokeStyle = colors.CloseWindowColorStroke;
+    drawCircle(ctx, leftPosition, topPosition, radius);
+
+    ctx.fillStyle = colors.MinifyWindowColor;
+    ctx.strokeStyle = colors.MinifyWindowColorStroke;
+    drawCircle(ctx,
+        leftPosition + (radius * 2) + ImageSizes.MarginBetweenStatusButtons,
+        topPosition,
+        radius);
+
+    ctx.fillStyle = colors.ReduceWindowColor;
+    ctx.strokeStyle = colors.ReduceWindowColorStroke;
+    drawCircle(ctx,
+        leftPosition + ((radius * 2) + ImageSizes.MarginBetweenStatusButtons) * 2,
+        topPosition,
+        radius);
+}
+
 export function draw(data: (string | Prism.Token)[], width: number) {
     const canvas = createCanvas(width, evaluateHeight(data, width));
     const ctx = canvas.getContext("2d");
     const charHeight = getCharHeight(ctx.measureText(']'));
 
-    ctx.fillStyle = "#ffffff";
+    // Draw the background
+    ctx.fillStyle = colors.BackgroundColor;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    drawTheWindow(ctx);
+
+    ctx.font = '16px Ubuntu';
+    ctx.fillStyle = colors.DefaultForgroundColor;
 
     let lastX = ImageSizes.marginLeft;
-    let lastY = ImageSizes.marginTop * 2 + ImageSizes.headerHeight;
+    let lastY = ImageSizes.marginTop * 2 + ImageSizes.headerHeight + ImageSizes.headerBottomMargin;
 
     for (const part of data) {
         if (typeof part === "string") {
