@@ -9,6 +9,10 @@ export enum colors {
     ReduceWindowColorStroke = "#1AAB29",
 }
 
+export enum properties {
+    FontSize = 16
+}
+
 export const TypeColors = {
     keyword: "#e6cd69",
     boolean: "#cd3f45",

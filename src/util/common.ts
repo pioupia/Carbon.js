@@ -2,10 +2,28 @@ import { createCanvas, loadImage, CanvasRenderingContext2D } from 'canvas';
 import Prism, { Grammar } from 'prismjs';
 import { ImageSizes } from '../types/common';
 import fs from "node:fs";
-import { colors, TypeColors } from '../themes/default';
+import { colors, properties, TypeColors } from '../themes/default';
 
 function getCharHeight(metrics: TextMetrics) {
     return metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+}
+
+function getInterateThroughParts(ctx: CanvasRenderingContext2D, data: (string | Prism.Token)[],
+                              lastX: number, lastY: number, charHeight: number, width: number)  {
+    for (const part of data) {
+        if (typeof part === "string") {
+            [lastX, lastY] = getHeightOfAText(ctx, charHeight, part, lastX, lastY, width);
+        } else {
+            if (Array.isArray(part.content)) {
+                [lastX, lastY] = getInterateThroughParts(ctx, part.content, lastX, lastY, charHeight, width);
+                continue;
+            }
+
+            [lastX, lastY] = getHeightOfAText(ctx, charHeight, part.content.toString(), lastX, lastY, width, part.length);
+        }
+    }
+
+    return [lastX, lastY];
 }
 
 function getHeightOfAText(ctx: CanvasRenderingContext2D, charHeight: number,
@@ -50,17 +68,11 @@ export function evaluateHeight(data: (string | Prism.Token)[], width: number) {
     let lastY = ImageSizes.marginTop * 2 + ImageSizes.headerHeight + ImageSizes.headerBottomMargin;
 
     const ctx = createCanvas(200, 200).getContext('2d');
-    ctx.font = '16px';
+    ctx.font = properties.FontSize + 'px';
 
     const charHeight = getCharHeight(ctx.measureText(']'));
 
-    for (const part of data) {
-        if (typeof part === "string") {
-            [lastX, lastY] = getHeightOfAText(ctx, charHeight, part, lastX, lastY, width);
-        } else {
-            [lastX, lastY] = getHeightOfAText(ctx, charHeight, part.content.toString(), lastX, lastY, width, part.length);
-        }
-    }
+    [lastX, lastY] = getInterateThroughParts(ctx, data, lastX, lastY, charHeight, width);
 
     return lastY + ImageSizes.marginBottom + charHeight;
 }
@@ -139,6 +151,29 @@ function drawTheWindow(ctx: CanvasRenderingContext2D) {
         radius);
 }
 
+function interateThroughParts(ctx: CanvasRenderingContext2D, data: (string | Prism.Token)[],
+                              lastX: number, lastY: number, charHeight: number, width: number,
+                              generalType?: string)  {
+    for (const part of data) {
+        const isString = typeof part === "string";
+        if (isString && !generalType) {
+            ctx.fillStyle = colors.DefaultForgroundColor;
+            [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width);
+        } else {
+            // @ts-ignore
+            ctx.fillStyle = TypeColors[part.type || generalType] || colors.DefaultForgroundColor;
+
+            if (!isString && Array.isArray(part.content)) {
+                [lastX, lastY] = interateThroughParts(ctx, part.content, lastX, lastY, charHeight, width, part.type);
+                continue;
+            }
+
+            [lastX, lastY] = drawText(ctx, charHeight, isString ? part : part.content.toString(), lastX, lastY, width, part.length);
+        }
+    }
+
+    return [lastX, lastY];
+}
 export function draw(data: (string | Prism.Token)[], width: number) {
     const canvas = createCanvas(width, evaluateHeight(data, width));
     const ctx = canvas.getContext("2d");
@@ -150,23 +185,13 @@ export function draw(data: (string | Prism.Token)[], width: number) {
 
     drawTheWindow(ctx);
 
-    ctx.font = '16px Ubuntu';
+    ctx.font = properties.FontSize + 'px Ubuntu';
     ctx.fillStyle = colors.DefaultForgroundColor;
 
     let lastX = ImageSizes.marginLeft;
     let lastY = ImageSizes.marginTop * 2 + ImageSizes.headerHeight + ImageSizes.headerBottomMargin;
 
-    for (const part of data) {
-        if (typeof part === "string") {
-            ctx.fillStyle = colors.DefaultForgroundColor;
-            [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width);
-        } else {
-            console.log({ type: part.type, content: part.content })
-            // @ts-ignore
-            ctx.fillStyle = TypeColors[part.type] || colors.DefaultForgroundColor;
-            [lastX, lastY] = drawText(ctx, charHeight, part.content.toString(), lastX, lastY, width, part.length);
-        }
-    }
+    interateThroughParts(ctx, data, lastX, lastY, charHeight, width);
 
     const out = fs.createWriteStream(process.cwd() + '/out/out.jpeg');
     const stream = canvas.createJPEGStream();
