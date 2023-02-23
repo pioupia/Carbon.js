@@ -1,4 +1,3 @@
-import { CodeTokenized } from "../types/common";
 import { createCanvas, loadImage } from 'canvas';
 import Prism, { Grammar } from 'prismjs';
 
@@ -11,11 +10,11 @@ import Prism, { Grammar } from 'prismjs';
  * @param data
  * @param width
  */
-function evaluateHeight(data: CodeTokenized, width: number) {
+function evaluateHeight(data: (string | Prism.Token)[], width: number) {
     let lastX = 15; // margin: 15px
     let lastY = 70; // margin: 20px + layout;
 
-    for (const part of data.parts) {
+    for (const part of data) {
 
     }
 }
@@ -23,9 +22,8 @@ function draw() {
 
 }
 
-export function parse(code: string, language: Grammar): void {
-    const result = Prism.tokenize(code, language);
-    console.log(result);
+export function parse(code: string, language: Grammar) {
+    return Prism.tokenize(code, language);
     /*[
         Token {
         type: 'keyword',
