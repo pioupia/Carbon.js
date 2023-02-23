@@ -3,8 +3,10 @@ import { draw, parse } from "./util/common";
 
 draw(
     parse(`
-    const \ntest \n= true;\n\nconst truc = false;
-const pluckDeep = key => obj => oj;
+const test = true;
+const pluckDeep = key => test;
+
+if (test) console.log(false);
     
 const bj = 1;
 const tj = "test";
