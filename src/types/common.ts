@@ -1,8 +1,9 @@
 export enum ImageSizes {
-    marginLeft = 15,
+    marginLeft = 20,
     marginRight = 30,
     marginBottom = 20,
     marginTop = 20,
-    headerHeight = 50,
-    textLineHeight = 1.2
+    MarginBetweenStatusButtons = 8,
+    headerHeight = 12.5,
+    textLineHeight = 19.2
 }
