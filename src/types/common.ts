@@ -16,5 +16,5 @@ export interface CodePart {
 
 export interface CodeTokenized {
     language: string | undefined;
-    parts: CodePart[] | string;
+    parts: (CodePart | string)[];
 }

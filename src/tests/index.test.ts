@@ -1,32 +1,31 @@
-import { parse } from "src";
+import { parse, parseCode } from "../util/common";
 import * as assert from "assert";
 import { FlagsDataTypes } from "src/types/common";
+import Prism from "prismjs";
 
 describe("Test parse function", () => {
     it("Simple code", () => {
-        assert.deepEqual(parse(`const test = true;`),
+        assert.deepEqual(parse(`const test = true;`, ["javascript"]).parts,
             [
                 {
-                    content: "const ",
-                    type: FlagsDataTypes.KEYWORDS,
-                    words: ["const"]
+                    children: ["const"],
+                    scope: 'keyword'
                 },
+                " test ",
+                "= ",
                 {
-                    content: "test = ",
-                    type: FlagsDataTypes.NEUTRAL,
-                    words: ["test", "="]
+                    children: ["true"],
+                    scope: 'literal'
                 },
-                {
-                    content: "true",
-                    type: FlagsDataTypes.KEYWORDS,
-                    words: ["true"]
-                },
-                {
-                    content: ";",
-                    type: FlagsDataTypes.NEUTRAL,
-                    words: [";"]
-                }
+                ";"
             ]
         );
+    });
+
+    it("just sentence", () => {
+        assert.deepEqual(
+            parse("test", ["javascript"]).parts,
+            ['test']
+        )
     });
 });
