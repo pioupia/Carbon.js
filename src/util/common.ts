@@ -14,13 +14,13 @@ function getHeightOfAText(ctx: CanvasRenderingContext2D, charHeight: number,
     let lastIndexSpace = 0;
     for (let i = 0; i < textLength; i++) {
         const charWidth = ctx.measureText(text[i]).width;
-        if(text[i] === ' ') lastIndexSpace = i;
+        if(text[i] === ' ' || text[i] === '\n') lastIndexSpace = i;
 
-        if ((lastX + charWidth + ImageSizes.marginRight) > width) {
+        if ((lastX + charWidth + ImageSizes.marginRight) > width || text[i] === '\n') {
             const sentenceWidth = ctx.measureText(text.slice(0, lastIndexSpace)).width;
             let cuttingIndex = i - 1;
             if (sentenceWidth + lastY + ImageSizes.marginRight <= width) {
-                cuttingIndex = lastIndexSpace + 1;
+                cuttingIndex = lastIndexSpace;
             }
 
             text = text.slice(cuttingIndex);
