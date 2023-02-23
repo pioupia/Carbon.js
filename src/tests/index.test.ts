@@ -1,4 +1,5 @@
-import { draw, evaluateHeight, parse } from "../util/common";
+import { parse } from "../util/common";
+import { evaluateHeight } from "../util/sizes";
 import * as assert from "assert";
 import Prism from "prismjs";
 

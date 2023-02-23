@@ -1,16 +1,23 @@
-import Prism from "prismjs";
-import { draw, parse } from "./util/common";
+import { Canvas } from "canvas";
+import Prism, { Grammar } from "prismjs";
+import { parse } from "./util/common";
+import { draw } from "./util/generateImage";
+import CarbonjsError from "./errors/CarbonjsErrors";
 
-draw(
-    parse(`
-    const compose = (...fns) => res => fns.reduce((accum, next) => next(accum), res);
-const test = true;
-const pluckDeep = key => test;
 
-if (test) console.log(false);
+/**
+ * Allows you to generate an Image from code
+ * @param {string} code
+ * @param {Grammar} language
+ * @param {number=} customWidth The custom with of the image (default: 750px)
+ * @return {Canvas}
+ */
+export default function carbon(code: string, language: Grammar, customWidth?: number): Canvas {
+    if (typeof customWidth === "number" && customWidth <= 100)
+        throw new CarbonjsError("The 'customWidth' can't be less than 100.");
 
-const bj = 1;
-const tj = "test";
-`, Prism.languages.javascript),
-    700
-);
+    return draw(
+        parse(code, language),
+        customWidth || 750
+    );
+}

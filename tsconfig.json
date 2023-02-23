@@ -9,14 +9,15 @@
     "strict": true,
     "baseUrl": ".",
     "resolveJsonModule": true,
-    "noEmitOnError": true,
+    "noEmitOnError": true
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.json"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/**/tests"
   ],
   "assets": []
 }
