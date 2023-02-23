@@ -15,5 +15,6 @@ export const TypeColors = {
     number: "#cd3f45",
     string: "#55b5db",
     'function-variable': "#55b5db",
-    parameter: "#55b5db"
+    parameter: "#55b5db",
+    function: "#a074c4"
 } as const;
