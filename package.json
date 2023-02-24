@@ -4,13 +4,13 @@
   "description": "A Carbon image generator from code",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/**/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "test": "tsc && jest --watchAll --verbose --coverage",
-    "build": "rm -rf dist/ && tsc && pnpm run build:esm && pnpm run build:cjs",
+    "test": "npm run build && jest --watchAll --verbose --coverage",
+    "build": "rm -rf dist/ && tsc && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
     "prepublish": "tsc",
