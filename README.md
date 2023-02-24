@@ -1,4 +1,4 @@
-# Carbon.js
+# CarbonImage
 This npm package allows you to transform your code into an Image, like: https://carbon.vercel.app.
 
 > This package **can only run** on the <ins>server side</ins> of your app.
@@ -7,22 +7,22 @@ This npm package allows you to transform your code into an Image, like: https://
 You have to use your favorite package manager like [npm](https://www.npmjs.com/), [pnpm](https://pnpm.io/) or [yarn](https://yarnpkg.com/) to install `carbon.js`.
 
 ```shell
-npm i carbon.js@latest
+npm i carbonimg@latest
 ```
 
 ```shell
-pnpm i carbon.js@latest
+pnpm i carbonimg@latest
 ```
 
 ```shell
-yarn i carbon.js@latest
+yarn i carbonimg@latest
 ```
 
-`carbon.js` Requires the following packages: [`canvas`](https://www.npmjs.com/package/canvas), and [`prismjs`](https://www.npmjs.com/package/prismjs). So the package is quite light by default.
+`carbonimg` Requires the following packages: [`canvas`](https://www.npmjs.com/package/canvas), and [`prismjs`](https://www.npmjs.com/package/prismjs). So the package is quite light by default.
 
 ## Quick Example
 ```typescript
-import carbon, { Languages } from "carbon.js";
+import carbon, { Languages } from "carbonimg";
 import fs from "node:fs";
 
 
