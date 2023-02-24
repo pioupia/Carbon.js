@@ -6,7 +6,7 @@ export default class CarbonjsError extends Error {
         Error.captureStackTrace?.(this, CarbonjsError);
     }
 
-    get name() {
+    override get name() {
         return "Carbonjs";
     }
 };

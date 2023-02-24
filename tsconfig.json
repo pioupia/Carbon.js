@@ -1,15 +1,46 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es2022",
-    "moduleResolution": "node",
-    "noImplicitAny": true,
-    "outDir": "dist/",
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "strict": true,
-    "baseUrl": ".",
+    "useUnknownInCatchVariables": true,
+    "noUncheckedIndexedAccess": true,
+    "skipLibCheck": true,
+    "pretty": false,
+
+    // Modules
+    "module": "ESNext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
-    "noEmitOnError": true
+
+    // Emit
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": true,
+    "importsNotUsedAsValues": "error",
+    "inlineSources": true,
+    "newLine": "lf",
+    "noEmitHelpers": true,
+    "outDir": "dist",
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Language and Environment
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "lib": ["ESNext"],
+    "target": "ES2021",
+    "useDefineForClassFields": true
+
   },
   "include": [
     "src/**/*.ts",
@@ -17,6 +48,7 @@
   ],
   "exclude": [
     "node_modules",
+    "dist",
     "src/**/tests"
   ],
   "assets": []

@@ -5,12 +5,12 @@ import { evaluateHeight, getCharHeight } from "./sizes";
 
 function drawText(ctx: CanvasRenderingContext2D, charHeight: number,
                   text: string, lastX: number, lastY: number, width: number,
-                  textLength?: number): number[] {
+                  textLength?: number): [number, number] {
     textLength ||= text.length;
 
     let lastIndexSpace = 0;
     for (let i = 0; i < textLength; i++) {
-        const charWidth = ctx.measureText(text[i]).width;
+        const charWidth = ctx.measureText(text[i] as string).width;
         const isBreakLine = text[i] === '\n';
         if (text[i] === ' ' || isBreakLine) lastIndexSpace = i + 1;
 
@@ -79,7 +79,7 @@ function drawTheWindow(ctx: CanvasRenderingContext2D) {
 
 function interateThroughParts(ctx: CanvasRenderingContext2D, data: (string | Prism.Token)[],
                               lastX: number, lastY: number, charHeight: number, width: number,
-                              generalType?: string)  {
+                              generalType?: string): [number, number]  {
     for (const part of data) {
         const isString = typeof part === "string";
         if (isString && !generalType) {
