@@ -1,5 +1,5 @@
 {
-  "name": "carbon.js",
+  "name": "carbonimg",
   "version": "1.0.0-BETA",
   "description": "A Carbon image generator from code",
   "main": "dist/cjs/index.js",
