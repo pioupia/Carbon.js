@@ -2,14 +2,17 @@
   "name": "carbon.js",
   "version": "1.0.0-BETA",
   "description": "A Carbon image generator from code",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/**/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "test": "tsc && jest --watchAll --verbose --coverage",
-    "build": "tsc",
+    "build": "rm -rf dist/ && tsc && pnpm run build:esm && pnpm run build:cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
     "prepublish": "tsc",
     "start": "tsc && node ."
   },

@@ -12,7 +12,7 @@
     "useUnknownInCatchVariables": true,
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
-    "pretty": false,
+    "pretty": true,
 
     // Modules
     "module": "ESNext",
@@ -27,7 +27,7 @@
     "inlineSources": true,
     "newLine": "lf",
     "noEmitHelpers": true,
-    "outDir": "dist",
+    "outDir": "dist/esm",
     "preserveConstEnums": true,
     "removeComments": false,
     "sourceMap": true,
