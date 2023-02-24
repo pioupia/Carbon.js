@@ -13,8 +13,8 @@
     "build": "rm -rf dist/ && tsc && npm run build:esm && npm run build:cjs",
     "build:esm": "tsc",
     "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
-    "prepublish": "tsc",
-    "start": "tsc && node ."
+    "prepublish": "npm run build",
+    "start": "npm run build && node ."
   },
   "repository": {
     "type": "git",
