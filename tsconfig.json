@@ -13,11 +13,13 @@
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
     "pretty": true,
+    "allowSyntheticDefaultImports": true,
 
     // Modules
     "module": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
+    "noImplicitAny": true,
 
     // Emit
     "declaration": true,
@@ -37,7 +39,8 @@
     // Language and Environment
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["ESNext"],
+    "lib": ["es5", "es2015", "es2016", "dom", "esnext"],
+    "types": ["node"],
     "target": "ES2021",
     "useDefineForClassFields": true
 
