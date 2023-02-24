@@ -7,15 +7,15 @@ This npm package allows you to transform your code into an Image, like: https://
 You have to use your favorite package manager like [npm](https://www.npmjs.com/), [pnpm](https://pnpm.io/) or [yarn](https://yarnpkg.com/) to install `carbon.js`.
 
 ```shell
-npm i carbonimg@latest
+npm i carbonimg@latest && npm i --save-dev @types/prismjs
 ```
 
 ```shell
-pnpm i carbonimg@latest
+pnpm i carbonimg@latest && pnpm i --save-dev @types/prismjs
 ```
 
 ```shell
-yarn i carbonimg@latest
+yarn i carbonimg@latest && yarn i --save-dev @types/prismjs
 ```
 
 `carbonimg` Requires the following packages: [`canvas`](https://www.npmjs.com/package/canvas), and [`prismjs`](https://www.npmjs.com/package/prismjs). So the package is quite light by default.
