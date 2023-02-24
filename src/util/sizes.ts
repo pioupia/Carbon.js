@@ -1,4 +1,4 @@
-import { createCanvas, CanvasRenderingContext2D } from "canvas";
+import { createCanvas, CanvasRenderingContext2D, TextMetrics } from "canvas";
 import { properties } from "../themes/default";
 import { ImageSizes } from "../types/common";
 
@@ -7,7 +7,7 @@ export function getCharHeight(metrics: TextMetrics) {
 }
 
 function getInterateThroughParts(ctx: CanvasRenderingContext2D, data: (string | Prism.Token)[],
-                                 lastX: number, lastY: number, charHeight: number, width: number)  {
+                                 lastX: number, lastY: number, charHeight: number, width: number): [number, number]  {
     for (const part of data) {
         if (typeof part === "string") {
             [lastX, lastY] = getHeightOfAText(ctx, charHeight, part, lastX, lastY, width);
@@ -26,12 +26,12 @@ function getInterateThroughParts(ctx: CanvasRenderingContext2D, data: (string | 
 
 function getHeightOfAText(ctx: CanvasRenderingContext2D, charHeight: number,
                           text: string, lastX: number, lastY: number, width: number,
-                          textLength?: number): number[] {
+                          textLength?: number): [number, number] {
     textLength ||= text.length;
 
     let lastIndexSpace = 0;
     for (let i = 0; i < textLength; i++) {
-        const charWidth = ctx.measureText(text[i]).width;
+        const charWidth = ctx.measureText(text[i] as string).width;
         const isBreakLine = text[i] === '\n';
         if (text[i] === ' ' || isBreakLine) lastIndexSpace = i + 1;
 

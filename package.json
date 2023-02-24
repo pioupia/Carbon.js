@@ -1,18 +1,31 @@
 {
   "name": "carbon.js",
-  "version": "1.0.0",
+  "version": "1.0.0-BETA",
   "description": "A Carbon image generator from code",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "test": "tsc && jest --watchAll --verbose --coverage",
     "build": "tsc",
+    "prepublish": "tsc",
     "start": "tsc && node ."
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pioupia/Carbon.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pioupia/Carbon.js/issues"
+  },
+  "homepage": "https://github.com/pioupia/Carbon.js",
   "keywords": [
     "carbon",
-    "code",
-    "image",
-    "canvas"
+    "javascript",
+    "code-image",
+    "beautiful"
   ],
   "author": "Pioupia",
   "license": "MIT",

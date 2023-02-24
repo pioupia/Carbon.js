@@ -1,5 +1,5 @@
-import { Canvas } from "canvas";
-import Prism, { Grammar } from "prismjs";
+import type { Canvas } from "canvas";
+import type { Grammar } from "prismjs";
 import { parse } from "./util/common";
 import { draw } from "./util/generateImage";
 import CarbonjsError from "./errors/CarbonjsErrors";
