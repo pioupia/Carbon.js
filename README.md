@@ -22,7 +22,7 @@ yarn i carbon.js@latest
 
 ## Quick Example
 ```typescript
-import carbon from "carbon.js";
+import carbon, { Languages } from "carbon.js";
 import fs from "node:fs";
 
 
@@ -41,7 +41,7 @@ const unfold = (f, seed) => {
 `;
 const out = fs.createWriteStream(__dirname + '/test.jpeg');
 
-const canvas = carbon(code, Prism.languages.javascript); // Will return the Canvas image.
+const canvas = carbon(code, Languages.javascript); // Will return the Canvas image.
 const stream = canvas.createJPEGStream({
     quality: 1,
     chromaSubsampling: false

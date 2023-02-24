@@ -3,6 +3,7 @@ import type { Grammar } from "prismjs";
 import { parse } from "./util/common";
 import { draw } from "./util/generateImage";
 import CarbonjsError from "./errors/CarbonjsErrors";
+import Prism from "prismjs";
 
 /**
  * Allows you to generate an Image from code
@@ -21,3 +22,5 @@ export default function carbon(
 
   return draw(parse(code, language), customWidth || 750);
 }
+
+export const Languages = Prism.languages;
