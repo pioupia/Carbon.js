@@ -23,9 +23,7 @@ yarn i carbonimg@latest && yarn i -D tslib
 ## Quick Example
 ```javascript
 const fs = require("node:fs");
-const carbon = require("carbonimg");
-const { Languages } = carbon;
-
+const { Languages, render } = require("carbonimg");
 
 const code = `
 const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
@@ -42,7 +40,7 @@ const unfold = (f, seed) => {
 `;
 const out = fs.createWriteStream(__dirname + '/test.jpeg');
 
-const canvas = carbon(code, Languages.javascript); // Will return the Canvas image.
+const canvas = render(code, Languages.javascript); // Will return the Canvas image.
 const stream = canvas.createJPEGStream({
     quality: 1,
     chromaSubsampling: false

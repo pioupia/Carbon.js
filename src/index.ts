@@ -12,7 +12,7 @@ import { languages } from "prismjs";
  * @param {number=} customWidth The custom with of the image (default: 750px)
  * @return {Canvas}
  */
-export default function carbon(
+export function render(
   code: string,
   language: Grammar,
   customWidth?: number
