@@ -1,5 +1,5 @@
-import Prism, { Grammar } from "prismjs";
+import { tokenize, Grammar } from "prismjs";
 
 export function parse(code: string, language: Grammar) {
-  return Prism.tokenize(code.trim(), language);
+  return tokenize(code.trim(), language);
 }
