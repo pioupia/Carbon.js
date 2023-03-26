@@ -2,22 +2,14 @@
   "name": "carbonimg",
   "version": "1.1.0-BETA",
   "description": "A Carbon image generator from code",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/esm/index.d.ts",
-  "exports": {
-    "import": "./dist/esm/index.js",
-    "require": "./dist/cjs/index.js"
-  },
-  "sideEffects": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/**/*"
   ],
   "scripts": {
     "test": "npm run build && jest --watchAll --verbose --coverage",
-    "build": "rm -rf dist/ && tsc && npm run build:esm && npm run build:cjs && node scripts/build.js",
-    "build:esm": "tsc",
-    "build:cjs": "tsc --module CommonJS --outDir dist/cjs",
+    "build": "rm -rf dist/ && tsc",
     "prepublish": "npm run build",
     "start": "npm run build && node ."
   },
