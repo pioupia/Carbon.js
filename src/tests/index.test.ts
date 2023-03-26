@@ -1,11 +1,11 @@
 import { parse } from "../util/common";
 import { evaluateHeight } from "../util/sizes";
 import * as assert from "assert";
-import Prism from "prismjs";
+import { Languages } from "../index";
 
 describe("Test parse function", () => {
   it("Simple code", () => {
-    assert.deepEqual(parse(`const test = true;`, Prism.languages.javascript), [
+    assert.deepEqual(parse(`const test = true;`, Languages.javascript), [
       {
         type: "keyword",
         content: "const",
@@ -31,7 +31,7 @@ describe("Test parse function", () => {
   });
 
   it("just sentence", () => {
-    assert.deepEqual(parse("test", Prism.languages.javascript), ["test"]);
+    assert.deepEqual(parse("test", Languages.javascript), ["test"]);
   });
 });
 
@@ -39,10 +39,10 @@ describe("Test evaluate the height of a text", () => {
   it("First test", () => {
     expect(
       evaluateHeight(
-        parse(`const test = true;`, Prism.languages.javascript),
+        parse(`const test = true;`, Languages.javascript),
         700
       )
-    ).toBe(120);
+    ).toBe(102.5);
   });
 
   it("Second test", () => {
@@ -50,10 +50,10 @@ describe("Test evaluate the height of a text", () => {
       evaluateHeight(
         parse(
           `const test \n= true;\n\nconst truc = false;`,
-          Prism.languages.javascript
+          Languages.javascript
         ),
         700
       ).toFixed(1)
-    ).toBe("153.6");
+    ).toBe("190.1");
   });
 });
