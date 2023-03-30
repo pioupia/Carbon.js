@@ -16,18 +16,6 @@ pnpm i carbonimg@latest
 
 `carbonimg` Uses the following packages: [`canvas`](https://www.npmjs.com/package/canvas), and [`prismjs`](https://www.npmjs.com/package/prismjs). So the package is quite light by default.
 
-### TypeScript types:
-With <ins>TypeScript</ins>, it is likely that you will be *required* to install <ins>prismjs types<ins>.
-
-So run the following command:
-```shell
-npm i -D @types/prismjs 
-```
-
-```shell
-pnpm i -D @types/prismjs
-```
-
 ## Quick Example
 ```javascript
 const fs = require("node:fs");
