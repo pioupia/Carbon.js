@@ -1,6 +1,6 @@
 export enum colors {
   BackgroundColor = "#151718",
-  DefaultForgroundColor = "#CFD2D1",
+  DefaultForegroundColor = "#CFD2D1",
   CloseWindowColor = "#FF5F56",
   CloseWindowColorStroke = "#E0443E",
   MinifyWindowColor = "#FFBD2E",
@@ -10,7 +10,7 @@ export enum colors {
 }
 
 export enum properties {
-  FontSize = 16,
+  FontSize = 16
 }
 
 export const TypeColors = {
