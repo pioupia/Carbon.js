@@ -111,10 +111,10 @@ function interateThroughParts(
   for (const part of data) {
     const isString = typeof part === "string";
     if (isString && !generalType) {
-      ctx.fillStyle = colors.DefaultForgroundColor;
+      ctx.fillStyle = colors.DefaultForegroundColor;
       [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width);
     } else {
-      ctx.fillStyle = TypeColors[(((part as Token).type) || generalType) as keyof typeof TypeColors] || colors.DefaultForgroundColor;
+      ctx.fillStyle = TypeColors[(((part as Token).type) || generalType) as keyof typeof TypeColors] || colors.DefaultForegroundColor;
 
       if (!isString && Array.isArray(part.content)) {
         [lastX, lastY] = interateThroughParts(
@@ -155,7 +155,7 @@ export function draw(data: (string | Prism.Token)[], width: number): Canvas {
   drawTheWindow(ctx);
 
   ctx.font = properties.FontSize + "px Ubuntu";
-  ctx.fillStyle = colors.DefaultForgroundColor;
+  ctx.fillStyle = colors.DefaultForegroundColor;
 
   let lastX = ImageSizes.marginLeft;
   let lastY =
