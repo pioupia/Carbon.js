@@ -1,7 +1,7 @@
 import { parse } from "../util/common";
 import { evaluateHeight } from "../util/sizes";
 import * as assert from "assert";
-import { Languages } from "../index";
+import { Languages, ThemeData } from "../index";
 
 describe("Test parse function", () => {
   it("Simple code", () => {
