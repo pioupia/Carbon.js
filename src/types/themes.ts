@@ -92,3 +92,39 @@ export interface ThemeData {
      */
     properties: ThemeDataProperties
 }
+
+
+
+
+
+
+
+
+interface OptionalThemeDataColor {
+    /**
+     * The window colors object.
+     */
+    window?: Partial<ThemeDataColorWindow>;
+    /**
+     * The text colors object, for each kind of elements.
+     */
+    text?: Partial<ThemeDataColorText>;
+}
+
+interface OptionalThemeDataProperties {
+    /**
+     * The text fontSize
+     */
+    fontSize?: number;
+}
+
+export interface OptionalThemeData {
+    /**
+     * Colors parameters
+     */
+    colors?: OptionalThemeDataColor,
+    /**
+     * Sizes parameters
+     */
+    properties?: OptionalThemeDataProperties
+}
