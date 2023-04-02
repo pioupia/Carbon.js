@@ -44,3 +44,49 @@ const stream = canvas.createJPEGStream({
 stream.pipe(out);
 out.on('finish', () =>  console.log('The JPEG file was created.'));
 ```
+
+## Render function:
+
+```ts
+render(code: string, language: Grammar, customTheme?: ThemeBuilder, customWidth?: number): Canvas
+```
+
+* code – The code you want to render.
+* language – The programming language used.
+* customTheme – The custom theme you want to apply to this image.
+* customWidth – The custom with of the image (default: 750px)
+
+
+
+## Create theme:
+Since version `1.4.0-BETA`, you can create a theme with the constructor `ThemeBuilder`.
+
+For example:
+```typescript
+import { ThemeBuilder } from "carbonimg";
+
+const theme = new ThemeBuilder();
+theme.setColor("backgroundColor", "#28211c") // Set the new Window Background color
+    .setColor("defaultForegroundColor", "#baae9e") // Set the default color of the text
+    .setColor("keyword", "#5ea6ea") // Set the new 'keyword' color
+    .setFontSize(20) // Set the font-size to 20.
+    .setFontFamily("./Gravity-Bold.otf", "Gravity Bold") // Change the font to Gravity-Bold
+    // /!\ The path is relative to the root of the project /!\
+    .setColor("string", "#54be0d");
+
+// Now, use the theme :
+const code = "const newVersion = 'My beautiful custom theme!';";
+const out = fs.createWriteStream(__dirname + '/code.jpeg');
+
+const canvas = render(code, Languages.javascript, theme);
+const stream = canvas.createJPEGStream({
+    quality: 1,
+    chromaSubsampling: false
+});
+stream.pipe(out);
+out.on('finish', () =>  console.log('The image was successfully rendered!'));
+```
+
+The `ThemeBuilder` class can take an optional theme object as parameter, to avoid using the above methods.
+
+But it is not possible to apply a custom font (a font file that is not installed as a font on the system) by this object.
