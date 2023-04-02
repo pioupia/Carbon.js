@@ -23,5 +23,5 @@ export function render(code: string, language: Grammar, customTheme?: ThemeBuild
     return draw(parse(code, language), customTheme || defaultTheme, customWidth || 750);
 }
 
-export { Languages };
+export { Languages, ThemeBuilder };
 export type { ThemeData };
