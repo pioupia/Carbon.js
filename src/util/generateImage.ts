@@ -138,12 +138,12 @@ function interateThroughParts(
 }
 
 export function draw(data: (string | Prism.Token)[], customTheme: ThemeBuilder, width: number): Canvas {
-    const canvas = createCanvas(width, evaluateHeight(data, width));
-    const ctx = canvas.getContext("2d");
-    const charHeight = getCharHeight(ctx.measureText("]"));
-
     const customThemeColors = customTheme.getColors();
     const customThemeProperties = customTheme.getFont();
+
+    const canvas = createCanvas(width, evaluateHeight(data, width, customThemeProperties));
+    const ctx = canvas.getContext("2d");
+    const charHeight = getCharHeight(ctx.measureText("]"));
 
     // Draw the background
     ctx.fillStyle = customThemeColors.window.backgroundColor;
