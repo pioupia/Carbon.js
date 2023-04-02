@@ -3,7 +3,7 @@ import CarbonjsError from "../errors/CarbonjsErrors";
 import { isHexadecimalColor } from "../util/common";
 
 export class ThemeBuilder {
-    private data: ThemeData;
+    private readonly data: ThemeData;
 
     constructor(theme?: OptionalThemeData) {
         this.data = {
@@ -57,6 +57,11 @@ export class ThemeBuilder {
         }
     }
 
+    /**
+     * Allows you to verify the data object
+     * @param data
+     * @private
+     */
     private verifyDataIntegrity(data?: any): boolean {
         if (!data &&
             (
@@ -75,10 +80,35 @@ export class ThemeBuilder {
             }
 
             if (!isHexadecimalColor(data[key])) {
-                throw new CarbonjsError(`The ${key} color value is not a hexadecimal color !`);
+                throw new CarbonjsError(`The ${key} color value is not a hexadecimal color!`);
             }
         }
 
         return true;
+    }
+
+
+    /**
+     * Allows you to set a change a color of the text.
+     * @param {string} name The name of the color in the config.
+     * @param {string} color Hexadecimal color.
+     * @returns {ThemeBuilder}
+     * @public
+     */
+    setColor(name: (keyof typeof this.data.colors.text | keyof typeof this.data.colors.window), color: string): ThemeBuilder {
+        const colors = this.data.colors;
+        const isText = colors.text[name as keyof typeof colors.text];
+        const isWindow = colors.window[name as keyof typeof colors.window];
+
+        if (!isText && !isWindow) throw new CarbonjsError(`The ${name} color value doesn't exist!`);
+        if (!isHexadecimalColor(color)) throw new CarbonjsError(`The color value '${color}' is not a valid color!`);
+
+        if (isText) {
+            colors.text[name as keyof typeof colors.text] = color;
+            return this;
+        }
+
+        colors.window[name as keyof typeof colors.window] = color;
+        return this;
     }
 }
