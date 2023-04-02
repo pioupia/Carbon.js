@@ -68,7 +68,7 @@ export class ThemeBuilder {
 
     /**
      * Set a new fontSize to the theme
-     * @param {number} fontSize
+     * @param {number} fontSize Number between 8 and 64 (e.g. 8 <= fontSize <= 64)
      * @return {ThemeBuilder}
      * @public
      */
