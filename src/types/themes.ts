@@ -64,9 +64,20 @@ interface ThemeDataColorText {
      */
     constant: string;
     /**
-     * Color of an attribute/characteristic or object/map key
+     * Color of an attribute/characteristic
+     * @example
+     * body {
+     *  color: red; // The "color"
+     *  line-height: normal; // And "line-height" will be colored.
+     * }
      */
     property: string;
+    /**
+     * Color of an object/map key
+     * @example
+     * const obj = { "test": true }; / The "test" will be colored
+     */
+    "string-property": string;
     /**
      * Color of the punctuation such as brackets, parentheses, commas, and more
      */
