@@ -151,7 +151,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
 
     drawTheWindow(ctx, customThemeColors);
 
-    ctx.font = customThemeProperties.fontSize + "px Ubuntu";
+    ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fontName;
     ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
     let lastX = ImageSizes.marginLeft;
