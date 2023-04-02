@@ -109,14 +109,14 @@ export function evaluateHeight(data: (string | Prism.Token)[], width: number, fo
 
   const charHeight = getCharHeight(ctx.measureText("]"));
 
-  [lastX, lastY] = getIterateThroughParts(
+  lastY = getIterateThroughParts(
     ctx,
     data,
     lastX,
     lastY,
     charHeight,
     width
-  );
+  )[1];
 
   return lastY + ImageSizes.marginBottom + charHeight;
 }
