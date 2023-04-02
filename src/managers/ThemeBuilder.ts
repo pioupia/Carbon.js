@@ -89,7 +89,7 @@ export class ThemeBuilder {
 
 
     /**
-     * Allows you to set a change a color of the text.
+     * Change the color of an element.
      * @param {string} name The name of the color in the config.
      * @param {string} color Hexadecimal color.
      * @returns {ThemeBuilder}
@@ -109,6 +109,19 @@ export class ThemeBuilder {
         }
 
         colors.window[name as keyof typeof colors.window] = color;
+        return this;
+    }
+
+    /**
+     * Set a new fontSize to the theme
+     * @param {number} fontSize
+     * @return {ThemeBuilder}
+     * @public
+     */
+    public setFontSize(fontSize: number): ThemeBuilder {
+        if (isNaN(fontSize) || fontSize < 8 || fontSize > 64) throw new CarbonjsError("The font size property cant be less than 8, or more than 64.");
+
+        this.data.properties.fontSize = fontSize;
         return this;
     }
 }
