@@ -68,12 +68,12 @@ export class ThemeBuilder {
 
     /**
      * Set a new fontSize to the theme
-     * @param {number} fontSize Number between 8 and 64 (e.g. 8 <= fontSize <= 64)
+     * @param {number} fontSize Number between 8 and 64 (e.g. 8 <= fontSize <= 26)
      * @return {ThemeBuilder}
      * @public
      */
     public setFontSize(fontSize: number): ThemeBuilder {
-        if (isNaN(fontSize) || fontSize < 8 || fontSize > 64) throw new CarbonjsError("The font size property cant be less than 8, or more than 64.");
+        if (isNaN(fontSize) || fontSize < 8 || fontSize > 26) throw new CarbonjsError("The font size property cant be less than 8, or more than 26.");
 
         this.data.properties.fontSize = fontSize;
         return this;
@@ -170,9 +170,9 @@ export class ThemeBuilder {
             (
                 typeof (this.data.properties.fontSize as any) !== "number" ||
                 this.data.properties.fontSize < 8 ||
-                this.data.properties.fontSize > 64
+                this.data.properties.fontSize > 26
             )
-        ) throw new CarbonjsError("The font size property cant be less than 8, or more than 64.");
+        ) throw new CarbonjsError("The font size property cant be less than 8, or more than 26.");
 
         data ||= this.data.colors;
 
