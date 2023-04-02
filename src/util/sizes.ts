@@ -1,6 +1,6 @@
 import { createCanvas, CanvasRenderingContext2D, TextMetrics } from "canvas";
-import { properties } from "../themes/default";
 import { ImageSizes } from "../types/common";
+import { ThemeDataProperties } from "../types/themes";
 
 export function getCharHeight(metrics: TextMetrics) {
   return metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
@@ -97,7 +97,7 @@ function getHeightOfAText(
   return [lastX, lastY];
 }
 
-export function evaluateHeight(data: (string | Prism.Token)[], width: number) {
+export function evaluateHeight(data: (string | Prism.Token)[], width: number, font: ThemeDataProperties) {
   let lastX = ImageSizes.marginLeft;
   let lastY =
     ImageSizes.marginTop * 2 +
@@ -105,7 +105,7 @@ export function evaluateHeight(data: (string | Prism.Token)[], width: number) {
     ImageSizes.headerBottomMargin;
 
   const ctx = createCanvas(200, 200).getContext("2d");
-  ctx.font = properties.FontSize + "px";
+  ctx.font = font.fontSize + "px " + font.fontName;
 
   const charHeight = getCharHeight(ctx.measureText("]"));
 
