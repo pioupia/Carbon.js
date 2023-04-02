@@ -93,7 +93,7 @@ function drawTheWindow(ctx: CanvasRenderingContext2D, theme: ThemeDataColor) {
 }
 
 function iterateThroughParts(
-    ctx: CanvasRenderingContext2D, data: (string | Prism.Token)[],
+    ctx: CanvasRenderingContext2D, data: (string | Token)[],
     customThemeColors: ThemeDataColor,
     lastX: number, lastY: number,
     charHeight: number, width: number,
@@ -137,7 +137,7 @@ function iterateThroughParts(
     return [lastX, lastY];
 }
 
-export function draw(data: (string | Prism.Token)[], customTheme: ThemeBuilder, width: number): Canvas {
+export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width: number): Canvas {
     const customThemeColors = customTheme.getColors();
     const customThemeProperties = customTheme.getFont();
 
