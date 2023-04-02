@@ -33,7 +33,8 @@ export class ThemeBuilder {
                 }
             },
             properties: {
-                fontSize: 16
+                fontSize: 16,
+                fontName: "Ubuntu"
             }
         };
 
@@ -105,8 +106,9 @@ export class ThemeBuilder {
                     string: this.data.colors.text.string,
                     "function-variable": this.data.colors.text["function-variable"],
                     parameter: this.data.colors.text.parameter,
-                    function: this.data.colors.text.function,
-                }, window: {
+                    function: this.data.colors.text.function
+                },
+                window: {
                     backgroundColor: this.data.colors.window.backgroundColor,
                     defaultForegroundColor: this.data.colors.window.defaultForegroundColor,
                     closeWindowColor: this.data.colors.window.closeWindowColor,
@@ -114,10 +116,12 @@ export class ThemeBuilder {
                     minifyWindowColor: this.data.colors.window.minifyWindowColor,
                     minifyWindowColorStroke: this.data.colors.window.minifyWindowColorStroke,
                     reduceWindowColor: this.data.colors.window.reduceWindowColor,
-                    reduceWindowColorStroke: this.data.colors.window.reduceWindowColorStroke,
+                    reduceWindowColorStroke: this.data.colors.window.reduceWindowColorStroke
                 },
-            }, properties: {
+            },
+            properties: {
                 fontSize: this.data.properties.fontSize,
+                fontName: this.data.properties.fontName
             }
         });
     }
