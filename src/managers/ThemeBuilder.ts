@@ -1,4 +1,4 @@
-import { OptionalThemeData, ThemeData } from "../types/themes";
+import { OptionalThemeData, ThemeData, ThemeDataColor, ThemeDataProperties } from "../types/themes";
 import CarbonjsError from "../errors/CarbonjsErrors";
 import { deepFreeze, isHexadecimalColor } from "../util/common";
 import { registerFont } from "canvas";
@@ -90,6 +90,19 @@ export class ThemeBuilder {
 
         this.data.properties.fontName = fontName;
         return this;
+    }
+
+    public getFont(): Readonly<ThemeDataProperties> {
+        return this.toJSON().properties;
+    }
+
+    /**
+     * Get the text and window colors.
+     * @return {Readonly<ThemeDataColor>} Read-Ony data theme color object
+     * @public
+     */
+    public getColors(): Readonly<ThemeDataColor> {
+        return this.toJSON().colors;
     }
 
     /**

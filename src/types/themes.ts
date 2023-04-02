@@ -64,7 +64,7 @@ interface ThemeDataColorWindow {
     reduceWindowColorStroke: string;
 }
 
-interface ThemeDataColor {
+export interface ThemeDataColor {
     /**
      * The window colors object.
      */
@@ -75,7 +75,7 @@ interface ThemeDataColor {
     text: ThemeDataColorText;
 }
 
-interface ThemeDataProperties {
+export interface ThemeDataProperties {
     /**
      * The text fontSize
      */
