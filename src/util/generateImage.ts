@@ -92,7 +92,7 @@ function drawTheWindow(ctx: CanvasRenderingContext2D, theme: ThemeDataColor) {
     );
 }
 
-function interateThroughParts(
+function iterateThroughParts(
     ctx: CanvasRenderingContext2D, data: (string | Prism.Token)[],
     customThemeColors: ThemeDataColor,
     lastX: number, lastY: number,
@@ -109,7 +109,7 @@ function interateThroughParts(
             ctx.fillStyle = customThemeColors.text[(((part as Token).type) || generalType) as keyof typeof customThemeColors.text] || customThemeColors.window.defaultForegroundColor;
 
             if (!isString && Array.isArray(part.content)) {
-                [lastX, lastY] = interateThroughParts(
+                [lastX, lastY] = iterateThroughParts(
                     ctx,
                     part.content,
                     customThemeColors,
@@ -160,7 +160,7 @@ export function draw(data: (string | Prism.Token)[], customTheme: ThemeBuilder, 
         ImageSizes.headerHeight +
         ImageSizes.headerBottomMargin;
 
-    interateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, width);
+    iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, width);
 
     return canvas;
 }

@@ -6,7 +6,7 @@ export function getCharHeight(metrics: TextMetrics) {
   return metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
 }
 
-function getInterateThroughParts(
+function getIterateThroughParts(
   ctx: CanvasRenderingContext2D,
   data: (string | Prism.Token)[],
   lastX: number,
@@ -26,7 +26,7 @@ function getInterateThroughParts(
       );
     } else {
       if (Array.isArray(part.content)) {
-        [lastX, lastY] = getInterateThroughParts(
+        [lastX, lastY] = getIterateThroughParts(
           ctx,
           part.content,
           lastX,
@@ -109,7 +109,7 @@ export function evaluateHeight(data: (string | Prism.Token)[], width: number, fo
 
   const charHeight = getCharHeight(ctx.measureText("]"));
 
-  [lastX, lastY] = getInterateThroughParts(
+  [lastX, lastY] = getIterateThroughParts(
     ctx,
     data,
     lastX,
