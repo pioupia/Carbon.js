@@ -5,8 +5,8 @@ import { draw } from "./util/generateImage";
 import CarbonjsError from "./errors/CarbonjsErrors";
 import Languages from "./types/Languages";
 import { ThemeData } from "./types/themes";
-import { ThemeBuilder } from "./managers/ThemeBuilder";
 import { defaultTheme } from "./themes/default";
+import { ThemeBuilder } from "./managers/ThemeBuilder";
 
 /**
  * Allows you to generate an Image from code.
@@ -14,7 +14,7 @@ import { defaultTheme } from "./themes/default";
  * @param {Grammar} language The programming language used.
  * @param {ThemeBuilder} customTheme The custom theme you want to apply to this image.
  * @param {number=} customWidth The custom with of the image (default: 750px)
- * @return {Canvas}
+ * @return {Canvas} The canvas image
  */
 export function render(code: string, language: Grammar, customTheme?: ThemeBuilder, customWidth?: number): Canvas {
     if (typeof customWidth === "number" && customWidth <= 100)
