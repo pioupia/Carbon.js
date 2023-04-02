@@ -78,6 +78,12 @@ export class ThemeBuilder {
         return this;
     }
 
+    /**
+     * Set the theme font and register it.
+     * @param {string} path The path to the font file from the project root
+     * @param fontName The name of the font
+     * @returns {ThemeBuilder}
+     */
     public setFontFamily(path: string, fontName: string): ThemeBuilder {
         registerFont(path, { family: fontName });
 
