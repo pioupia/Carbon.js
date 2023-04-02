@@ -80,6 +80,10 @@ interface ThemeDataProperties {
      * The text fontSize
      */
     fontSize: number;
+    /**
+     * The font name used for the theme
+     */
+    fontName: string;
 }
 
 export interface ThemeData {
@@ -111,13 +115,6 @@ interface OptionalThemeDataColor {
     text?: Partial<ThemeDataColorText>;
 }
 
-interface OptionalThemeDataProperties {
-    /**
-     * The text fontSize
-     */
-    fontSize?: number;
-}
-
 export interface OptionalThemeData {
     /**
      * Colors parameters
@@ -126,5 +123,5 @@ export interface OptionalThemeData {
     /**
      * Sizes parameters
      */
-    properties?: OptionalThemeDataProperties
+    properties?: Partial<ThemeDataProperties>
 }
