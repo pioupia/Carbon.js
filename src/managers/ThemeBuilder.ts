@@ -1,6 +1,7 @@
 import { OptionalThemeData, ThemeData } from "../types/themes";
 import CarbonjsError from "../errors/CarbonjsErrors";
 import { deepFreeze, isHexadecimalColor } from "../util/common";
+import { registerFont } from "canvas";
 
 /**
  * Create a custom theme.
@@ -74,6 +75,18 @@ export class ThemeBuilder {
         if (isNaN(fontSize) || fontSize < 8 || fontSize > 64) throw new CarbonjsError("The font size property cant be less than 8, or more than 64.");
 
         this.data.properties.fontSize = fontSize;
+        return this;
+    }
+
+    /**
+     * Set the theme font and register it.
+     * @param {string} path The path to the font file from the project root
+     * @param fontName The name of the font
+     * @returns {ThemeBuilder}
+     */
+    public setFontFamily(path: string, fontName: string): ThemeBuilder {
+        registerFont(path, { family: fontName });
+
         return this;
     }
 
