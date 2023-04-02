@@ -98,12 +98,6 @@ export interface ThemeData {
 }
 
 
-
-
-
-
-
-
 interface OptionalThemeDataColor {
     /**
      * The window colors object.
