@@ -2,6 +2,9 @@ import { OptionalThemeData, ThemeData } from "../types/themes";
 import CarbonjsError from "../errors/CarbonjsErrors";
 import { isHexadecimalColor } from "../util/common";
 
+/**
+ * Create a custom theme.
+ */
 export class ThemeBuilder {
     private readonly data: ThemeData;
 
@@ -30,11 +33,48 @@ export class ThemeBuilder {
             },
             properties: {
                 fontSize: 16
-            },
+            }
         };
 
         if (theme) this.mergeData(this.data, theme);
         this.verifyDataIntegrity();
+    }
+
+    /**
+     * Change the color of an element.
+     * @param {string} name The name of the color in the config.
+     * @param {string} color Hexadecimal color.
+     * @returns {ThemeBuilder}
+     * @public
+     */
+    setColor(name: (keyof typeof this.data.colors.text | keyof typeof this.data.colors.window), color: string): ThemeBuilder {
+        const colors = this.data.colors;
+        const isText = colors.text[name as keyof typeof colors.text];
+        const isWindow = colors.window[name as keyof typeof colors.window];
+
+        if (!isText && !isWindow) throw new CarbonjsError(`The ${name} color value doesn't exist!`);
+        if (!isHexadecimalColor(color)) throw new CarbonjsError(`The color value '${color}' is not a valid color!`);
+
+        if (isText) {
+            colors.text[name as keyof typeof colors.text] = color;
+            return this;
+        }
+
+        colors.window[name as keyof typeof colors.window] = color;
+        return this;
+    }
+
+    /**
+     * Set a new fontSize to the theme
+     * @param {number} fontSize
+     * @return {ThemeBuilder}
+     * @public
+     */
+    public setFontSize(fontSize: number): ThemeBuilder {
+        if (isNaN(fontSize) || fontSize < 8 || fontSize > 64) throw new CarbonjsError("The font size property cant be less than 8, or more than 64.");
+
+        this.data.properties.fontSize = fontSize;
+        return this;
     }
 
     /**
@@ -85,43 +125,5 @@ export class ThemeBuilder {
         }
 
         return true;
-    }
-
-
-    /**
-     * Change the color of an element.
-     * @param {string} name The name of the color in the config.
-     * @param {string} color Hexadecimal color.
-     * @returns {ThemeBuilder}
-     * @public
-     */
-    setColor(name: (keyof typeof this.data.colors.text | keyof typeof this.data.colors.window), color: string): ThemeBuilder {
-        const colors = this.data.colors;
-        const isText = colors.text[name as keyof typeof colors.text];
-        const isWindow = colors.window[name as keyof typeof colors.window];
-
-        if (!isText && !isWindow) throw new CarbonjsError(`The ${name} color value doesn't exist!`);
-        if (!isHexadecimalColor(color)) throw new CarbonjsError(`The color value '${color}' is not a valid color!`);
-
-        if (isText) {
-            colors.text[name as keyof typeof colors.text] = color;
-            return this;
-        }
-
-        colors.window[name as keyof typeof colors.window] = color;
-        return this;
-    }
-
-    /**
-     * Set a new fontSize to the theme
-     * @param {number} fontSize
-     * @return {ThemeBuilder}
-     * @public
-     */
-    public setFontSize(fontSize: number): ThemeBuilder {
-        if (isNaN(fontSize) || fontSize < 8 || fontSize > 64) throw new CarbonjsError("The font size property cant be less than 8, or more than 64.");
-
-        this.data.properties.fontSize = fontSize;
-        return this;
     }
 }
