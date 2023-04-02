@@ -88,6 +88,7 @@ export class ThemeBuilder {
     public setFontFamily(path: string, fontName: string): ThemeBuilder {
         registerFont(path, { family: fontName });
 
+        this.data.properties.fontName = fontName;
         return this;
     }
 
