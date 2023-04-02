@@ -1,6 +1,6 @@
 import { OptionalThemeData, ThemeData } from "../types/themes";
 import CarbonjsError from "../errors/CarbonjsErrors";
-import { isHexadecimalColor } from "../util/common";
+import { deepFreeze, isHexadecimalColor } from "../util/common";
 
 /**
  * Create a custom theme.
@@ -47,7 +47,7 @@ export class ThemeBuilder {
      * @returns {ThemeBuilder}
      * @public
      */
-    setColor(name: (keyof typeof this.data.colors.text | keyof typeof this.data.colors.window), color: string): ThemeBuilder {
+    public setColor(name: (keyof typeof this.data.colors.text | keyof typeof this.data.colors.window), color: string): ThemeBuilder {
         const colors = this.data.colors;
         const isText = colors.text[name as keyof typeof colors.text];
         const isWindow = colors.window[name as keyof typeof colors.window];
@@ -75,6 +75,38 @@ export class ThemeBuilder {
 
         this.data.properties.fontSize = fontSize;
         return this;
+    }
+
+    /**
+     * Get the JSON theme data object
+     * @return {Readonly<ThemeData>} Read-Ony data object
+     * @public
+     */
+    public toJSON(): Readonly<ThemeData> {
+        return deepFreeze({
+            colors: {
+                text: {
+                    keyword: this.data.colors.text.keyword,
+                    boolean: this.data.colors.text.boolean,
+                    number: this.data.colors.text.number,
+                    string: this.data.colors.text.string,
+                    "function-variable": this.data.colors.text["function-variable"],
+                    parameter: this.data.colors.text.parameter,
+                    function: this.data.colors.text.function,
+                }, window: {
+                    backgroundColor: this.data.colors.window.backgroundColor,
+                    defaultForegroundColor: this.data.colors.window.defaultForegroundColor,
+                    closeWindowColor: this.data.colors.window.closeWindowColor,
+                    closeWindowColorStroke: this.data.colors.window.closeWindowColorStroke,
+                    minifyWindowColor: this.data.colors.window.minifyWindowColor,
+                    minifyWindowColorStroke: this.data.colors.window.minifyWindowColorStroke,
+                    reduceWindowColor: this.data.colors.window.reduceWindowColor,
+                    reduceWindowColorStroke: this.data.colors.window.reduceWindowColorStroke,
+                },
+            }, properties: {
+                fontSize: this.data.properties.fontSize,
+            }
+        });
     }
 
     /**
