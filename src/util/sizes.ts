@@ -1,6 +1,7 @@
 import { createCanvas, CanvasRenderingContext2D, TextMetrics } from "canvas";
 import { ImageSizes } from "../types/common";
 import { ThemeDataProperties } from "../types/themes";
+import type { Token } from "prismjs";
 
 export function getCharHeight(metrics: TextMetrics) {
   return metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
@@ -8,7 +9,7 @@ export function getCharHeight(metrics: TextMetrics) {
 
 function getIterateThroughParts(
   ctx: CanvasRenderingContext2D,
-  data: (string | Prism.Token)[],
+  data: (string | Token)[],
   lastX: number,
   lastY: number,
   charHeight: number,
@@ -97,7 +98,7 @@ function getHeightOfAText(
   return [lastX, lastY];
 }
 
-export function evaluateHeight(data: (string | Prism.Token)[], width: number, font: ThemeDataProperties) {
+export function evaluateHeight(data: (string | Token)[], width: number, font: ThemeDataProperties) {
   let lastX = ImageSizes.marginLeft;
   let lastY =
     ImageSizes.marginTop * 2 +
