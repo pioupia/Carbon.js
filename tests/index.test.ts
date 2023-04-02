@@ -1,7 +1,7 @@
-import { parse } from "../util/common";
-import { evaluateHeight } from "../util/sizes";
+import { parse } from "../src/util/common";
+import { evaluateHeight } from "../src/util/sizes";
 import * as assert from "assert";
-import { Languages, ThemeData } from "../index";
+import { Languages } from "../src";
 
 describe("Test parse function", () => {
   it("Simple code", () => {
@@ -40,9 +40,13 @@ describe("Test evaluate the height of a text", () => {
     expect(
       evaluateHeight(
         parse(`const test = true;`, Languages.javascript),
-        700
+        700,
+          {
+            fontName: "Ubuntu",
+            fontSize: 16
+          }
       )
-    ).toBe(102.5);
+    ).toBe(109.5);
   });
 
   it("Second test", () => {
@@ -52,8 +56,12 @@ describe("Test evaluate the height of a text", () => {
           `const test \n= true;\n\nconst truc = false;`,
           Languages.javascript
         ),
-        700
+        700,
+          {
+            fontSize: 16,
+            fontName: "Ubuntu"
+          }
       ).toFixed(1)
-    ).toBe("190.1");
+    ).toBe("218.1");
   });
 });
