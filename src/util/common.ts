@@ -1,4 +1,6 @@
-import { tokenize, Grammar } from "prismjs";
+import { tokenize, Grammar, languages } from "prismjs";
+import Languages, { LanguageObject } from "../types/Languages";
+const loadLanguages = require("prismjs/components/index");
 
 export function parse(code: string, language: Grammar) {
   return tokenize(code.trim(), language);
@@ -13,6 +15,11 @@ export function isHexadecimalColor(color: string): boolean {
   return /^#([0-9a-f]{3}){1,2}$/i.test(color);
 }
 
+/**
+ * Make the deep freeze of an object.
+ * @param {object} object
+ * @return {Readonly<object>} A totally freeze object.
+ */
 export function deepFreeze<T extends object>(object: T): Readonly<T> {
   const propNames = Reflect.ownKeys(object);
 
@@ -25,4 +32,12 @@ export function deepFreeze<T extends object>(object: T): Readonly<T> {
   }
 
   return Object.freeze(object);
+}
+
+export function loadLanguage(lang: LanguageObject): void {
+  if (!languages[lang.name]) {
+    loadLanguages([lang.name]);
+    // @ts-ignore
+    Languages[lang.name as keyof typeof Languages].lang = languages[lang.name];
+  }
 }

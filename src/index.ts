@@ -1,9 +1,9 @@
 import type { Canvas } from "canvas";
 import type { Grammar } from "prismjs";
-import { parse } from "./util/common";
+import { loadLanguage, parse } from "./util/common";
 import { draw } from "./util/generateImage";
 import CarbonjsError from "./errors/CarbonjsErrors";
-import Languages from "./types/Languages";
+import Languages, { LanguageObject } from "./types/Languages";
 import { ThemeData } from "./types/themes";
 import { defaultTheme } from "./themes/default";
 import { ThemeBuilder } from "./managers/ThemeBuilder";
@@ -16,11 +16,13 @@ import { ThemeBuilder } from "./managers/ThemeBuilder";
  * @param {number=} customWidth The custom with of the image (default: 750px)
  * @return {Canvas} The canvas image
  */
-export function render(code: string, language: Grammar, customTheme?: ThemeBuilder, customWidth?: number): Canvas {
+export function render(code: string, language: LanguageObject, customTheme?: ThemeBuilder, customWidth?: number): Canvas {
     if (typeof customWidth === "number" && customWidth <= 100)
         throw new CarbonjsError("The 'customWidth' can't be less than 100.");
 
-    return draw(parse(code, language), customTheme || defaultTheme, customWidth || 750);
+    loadLanguage(language);
+
+    return draw(parse(code, language.lang), customTheme || defaultTheme, customWidth || 750);
 }
 
 export { Languages, ThemeBuilder };
