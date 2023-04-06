@@ -1,4 +1,4 @@
-import { parse } from "../src/util/common";
+import { loadLanguage, parse } from "../src/util/common";
 import { evaluateHeight } from "../src/util/sizes";
 import * as assert from "assert";
 import { Languages, ThemeBuilder } from "../src";
@@ -6,7 +6,7 @@ import CarbonjsError from "../src/errors/CarbonjsErrors";
 
 describe("Test parse function", () => {
     it("Simple code", () => {
-        assert.deepEqual(parse(`const test = true;`, Languages.javascript), [
+        assert.deepEqual(parse(`const test = true;`, Languages.javascript.lang), [
             {
                 type: "keyword",
                 content: "const",
@@ -32,7 +32,7 @@ describe("Test parse function", () => {
     });
 
     it("just sentence", () => {
-        assert.deepEqual(parse("test", Languages.javascript), ["test"]);
+        assert.deepEqual(parse("test", Languages.javascript.lang), ["test"]);
     });
 });
 
@@ -40,7 +40,7 @@ describe("Test evaluate the height of a text", () => {
     it("First test", () => {
         expect(
             evaluateHeight(
-                parse(`const test = true;`, Languages.javascript),
+                parse(`const test = true;`, Languages.javascript.lang),
                 700,
                 {
                     fontName: "Ubuntu",
@@ -55,7 +55,7 @@ describe("Test evaluate the height of a text", () => {
             evaluateHeight(
                 parse(
                     `const test \n= true;\n\nconst truc = false;`,
-                    Languages.javascript
+                    Languages.javascript.lang
                 ),
                 700,
                 {
@@ -271,5 +271,19 @@ describe("Create a custom theme", () => {
         expect(() => {
             customTheme.setFontSize(28);
         }).toThrow();
+    });
+});
+
+
+describe("Load languages", () => {
+    it("Load all languages test", () => {
+        const keys = ["markup", "css", "clike", "javascript", "abap", "actionscript", "ada", "apacheconf", "apl", "applescript", "arduino", "arff", "asciidoc", "asm6502", "aspnet", "autohotkey", "autoit", "bash", "basic", "batch", "bison", "brainfuck", "bro", "c", "csharp", "cpp", "coffeescript", "clojure", "crystal", "csp", "d", "dart", "diff", "django", "docker", "eiffel", "elixir", "elm", "erb", "erlang", "fsharp", "flow", "fortran", "gedcom", "gherkin", "git", "glsl", "gml", "go", "graphql", "groovy", "haml", "handlebars", "haskell", "haxe", "http", "hpkp", "hsts", "ichigojam", "icon", "inform7", "ini", "io", "j", "java", "jolie", "json", "julia", "keyman", "kotlin", "latex", "less", "liquid", "lisp", "livescript", "lolcode", "lua", "makefile", "markdown", "markup-templating", "matlab", "mel", "mizar", "monkey", "n4js", "nasm", "nginx", "nim", "nix", "nsis", "objectivec", "ocaml", "oz", "parigp", "parser", "pascal", "perl", "php", "plsql", "powershell", "processing", "prolog", "properties", "protobuf", "pug", "puppet", "pure", "python", "q", "qore", "r", "jsx", "renpy", "reason", "rest", "rip", "roboconf", "ruby", "rust", "sas", "sass", "scss", "scala", "scheme", "smalltalk", "smarty", "sql", "soy", "stylus", "swift", "tap", "tcl", "textile", "tt2", "twig", "typescript", "vbnet", "velocity", "verilog", "vhdl", "vim", "visual-basic", "wasm", "wiki", "xeora", "xojo", "xquery", "yaml"];
+        for (const key of keys) {
+            const language = Languages[key as keyof typeof Languages];
+
+            loadLanguage(language);
+
+            parse('test = true', language.lang);
+        }
     });
 });
