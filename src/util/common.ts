@@ -1,9 +1,10 @@
 import { tokenize, Grammar, languages } from "prismjs";
 import Languages, { LanguageObject } from "../types/Languages";
+
 const loadLanguages = require("prismjs/components/index");
 
 export function parse(code: string, language: Grammar) {
-  return tokenize(code.trim(), language);
+    return tokenize(code.trim(), language);
 }
 
 /**
@@ -12,7 +13,7 @@ export function parse(code: string, language: Grammar) {
  * @returns {boolean}
  */
 export function isHexadecimalColor(color: string): boolean {
-  return /^#([0-9a-f]{3}){1,2}$/i.test(color);
+    return /^#([0-9a-f]{3}){1,2}$/i.test(color);
 }
 
 /**
@@ -21,23 +22,26 @@ export function isHexadecimalColor(color: string): boolean {
  * @return {Readonly<object>} A totally freeze object.
  */
 export function deepFreeze<T extends object>(object: T): Readonly<T> {
-  const propNames = Reflect.ownKeys(object);
+    const propNames = Reflect.ownKeys(object);
 
-  for (const name of propNames) {
-    const value = object[name as keyof object];
+    for (const name of propNames) {
+        const value = object[name as keyof object];
 
-    if ((value && typeof value === "object") || typeof value === "function") {
-      deepFreeze(value);
+        if ((value && typeof value === "object") || typeof value === "function") {
+            deepFreeze(value);
+        }
     }
-  }
 
-  return Object.freeze(object);
+    return Object.freeze(object);
 }
 
 export function loadLanguage(lang: LanguageObject): void {
-  if (!languages[lang.name]) {
-    loadLanguages([lang.name]);
+    if (lang.lang && languages[lang.name]) return;
+
+    if (!languages[lang.name]) {
+        loadLanguages([lang.name]);
+    }
+
     // @ts-ignore
     Languages[lang.name as keyof typeof Languages].lang = languages[lang.name];
-  }
 }
