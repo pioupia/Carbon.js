@@ -143,7 +143,6 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
 
     const canvas = createCanvas(width, evaluateHeight(data, width, customThemeProperties));
     const ctx = canvas.getContext("2d");
-    const charHeight = getCharHeight(ctx.measureText("]"));
 
     // Draw the background
     ctx.fillStyle = customThemeColors.window.backgroundColor;
@@ -159,6 +158,8 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
         ImageSizes.marginTop * 2 +
         ImageSizes.headerHeight +
         ImageSizes.headerBottomMargin;
+
+    const charHeight = getCharHeight(ctx.measureText("]"));
 
     iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, width);
 
