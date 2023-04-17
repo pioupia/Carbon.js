@@ -75,7 +75,7 @@ function getHeightOfAText(
         const isBreakLine = text[i] === "\n";
         if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
 
-        if (lastX + charWidth + ImageSizes.marginRight > width || isBreakLine) {
+        if ((lastX + charWidth + ImageSizes.marginRight > width) || isBreakLine) {
             const sentenceWidth = ctx.measureText(
                 text.slice(0, lastIndexSpace)
             ).width;
@@ -93,11 +93,6 @@ function getHeightOfAText(
         }
 
         lastX += charWidth;
-    }
-
-    if (text === "\n") {
-        lastY += ImageSizes.textLineHeight + charHeight;
-        lastX = ImageSizes.marginLeft + backgroundPadding.left;
     }
 
     return [lastX, lastY];
