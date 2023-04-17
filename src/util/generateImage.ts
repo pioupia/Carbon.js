@@ -3,13 +3,13 @@ import type { Token } from "prismjs";
 import { ImageSizes } from "../types/common";
 import { evaluateHeight, getCharHeight } from "./sizes";
 import { ThemeBuilder } from "../managers/ThemeBuilder";
-import { ThemeDataColor } from "../types/themes";
+import {backgroundPadding, ThemeDataColor} from "../types/themes";
 
 function drawText(
     ctx: CanvasRenderingContext2D, charHeight: number,
     text: string,
     lastX: number, lastY: number,
-    width: number, textLength?: number): [number, number] {
+    width: number, backgroundPadding: backgroundPadding, textLength?: number): [number, number] {
     textLength ||= text.length;
 
     let lastIndexSpace = 0;
@@ -18,7 +18,10 @@ function drawText(
         const isBreakLine = text[i] === "\n";
         if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
 
-        if (lastX + charWidth + ImageSizes.marginRight > width || isBreakLine) {
+
+        if (text.includes("obj")) console.log(isBreakLine, (lastX + charWidth + ImageSizes.marginRight) > width, width, lastX + charWidth + ImageSizes.marginRight);
+
+        if ((lastX + charWidth + ImageSizes.marginRight > width) || isBreakLine) {
             const sentenceWidth = ctx.measureText(
                 text.slice(0, lastIndexSpace)
             ).width;
@@ -39,7 +42,7 @@ function drawText(
             i -= cuttingIndex;
 
             lastY += ImageSizes.textLineHeight + charHeight;
-            lastX = ImageSizes.marginLeft;
+            lastX = backgroundPadding.left + ImageSizes.marginLeft + charWidth;
         }
 
         lastX += charWidth;
@@ -47,7 +50,7 @@ function drawText(
 
     if (text === "\n") {
         lastY += ImageSizes.textLineHeight + charHeight;
-        lastX = ImageSizes.marginLeft;
+        lastX = ImageSizes.marginLeft + backgroundPadding.left;
     } else if (text) {
         ctx.fillText(text, lastX - ctx.measureText(text).width, lastY);
     }
@@ -63,11 +66,17 @@ function drawCircle(ctx: CanvasRenderingContext2D,
     ctx.stroke();
 }
 
-function drawTheWindow(ctx: CanvasRenderingContext2D, theme: ThemeDataColor) {
+function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: ThemeDataColor, padding: backgroundPadding) {
     ctx.lineWidth = 0.5;
+
+    // Draw the window background
+    ctx.fillStyle = theme.window.backgroundColor;
+    ctx.fillRect(padding.left, padding.top, canvas.width - padding.right - padding.left, canvas.height - padding.bottom - padding.top);
+
+    // Draw the buttons
     const radius = (ImageSizes.headerHeight - 0.5) / 2;
-    const leftPosition = ImageSizes.marginLeft + radius;
-    const topPosition = ImageSizes.marginTop + radius;
+    const leftPosition = ImageSizes.marginLeft + radius + padding.left;
+    const topPosition = ImageSizes.marginTop + radius + padding.top;
 
     ctx.fillStyle = theme.window.closeWindowColor;
     ctx.strokeStyle = theme.window.closeWindowColorStroke;
@@ -97,6 +106,7 @@ function iterateThroughParts(
     customThemeColors: ThemeDataColor,
     lastX: number, lastY: number,
     charHeight: number, width: number,
+    backgroundPadding: backgroundPadding,
     generalType?: string): [number, number] {
 
     for (const part of data) {
@@ -104,7 +114,7 @@ function iterateThroughParts(
 
         if (isString && !generalType) {
             ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
-            [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width);
+            [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width, backgroundPadding);
         } else {
             ctx.fillStyle = customThemeColors.text[(((part as Token).type) || generalType) as keyof typeof customThemeColors.text] || customThemeColors.window.defaultForegroundColor;
 
@@ -117,6 +127,7 @@ function iterateThroughParts(
                     lastY,
                     charHeight,
                     width,
+                    backgroundPadding,
                     part.type
                 );
                 continue;
@@ -129,6 +140,7 @@ function iterateThroughParts(
                 lastX,
                 lastY,
                 width,
+                backgroundPadding,
                 part.length
             );
         }
@@ -140,28 +152,34 @@ function iterateThroughParts(
 export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width: number): Canvas {
     const customThemeColors = customTheme.getColors();
     const customThemeProperties = customTheme.getFont();
+    const backgroundPadding = customTheme.getBackgroundPadding();
+    const backgroundProperties = customTheme.getBackgroundProperties();
 
-    const canvas = createCanvas(width, evaluateHeight(data, width, customThemeProperties));
+    const canvas = createCanvas(
+        width + backgroundPadding.left + backgroundPadding.right,
+        evaluateHeight(data, width, customThemeProperties, backgroundPadding)
+    );
     const ctx = canvas.getContext("2d");
 
     // Draw the background
-    ctx.fillStyle = customThemeColors.window.backgroundColor;
+    ctx.fillStyle = backgroundProperties.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    drawTheWindow(ctx, customThemeColors);
+    drawTheWindow(canvas, ctx, customThemeColors, backgroundPadding);
 
     ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fontName;
     ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
-    let lastX = ImageSizes.marginLeft;
+    let lastX = ImageSizes.marginLeft + backgroundPadding.left;
     let lastY =
         ImageSizes.marginTop * 2 +
         ImageSizes.headerHeight +
-        ImageSizes.headerBottomMargin;
+        ImageSizes.headerBottomMargin +
+        backgroundPadding.top;
 
     const charHeight = getCharHeight(ctx.measureText("]"));
 
-    iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, width);
+    iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, canvas.width - backgroundPadding.right, backgroundPadding);
 
     return canvas;
 }

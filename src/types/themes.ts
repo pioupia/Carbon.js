@@ -307,3 +307,23 @@ export interface OptionalThemeData {
      */
     background?: Partial<BackgroundProperties>;
 }
+
+
+export interface backgroundPadding {
+    /**
+     * The background top padding
+     */
+    top: number;
+    /**
+     * The background bottom padding
+     */
+    bottom: number;
+    /**
+     * The background left padding
+     */
+    left: number;
+    /**
+     * The background right padding
+     */
+    right: number;
+}
