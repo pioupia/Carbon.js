@@ -239,7 +239,7 @@ interface OptionalThemeDataColor {
     text?: Partial<ThemeDataColorText>;
 }
 
-interface BackgroundProperties {
+export interface BackgroundProperties {
     /**
      * The background color
      */

@@ -1,4 +1,4 @@
-import { OptionalThemeData, ThemeData, ThemeDataColor, ThemeDataProperties } from "../types/themes";
+import {BackgroundProperties, OptionalThemeData, ThemeData, ThemeDataColor, ThemeDataProperties} from "../types/themes";
 import CarbonjsError from "../errors/CarbonjsErrors";
 import { deepFreeze, isHexadecimalColor } from "../util/common";
 import { registerFont } from "canvas";
@@ -7,7 +7,7 @@ import { registerFont } from "canvas";
  * Create a custom theme.
  */
 export class ThemeBuilder {
-    private readonly data: ThemeData;
+    data: ThemeData;
 
     constructor(theme?: OptionalThemeData) {
         this.data = {
@@ -63,6 +63,20 @@ export class ThemeBuilder {
             properties: {
                 fontSize: 16,
                 fontName: "Ubuntu"
+            },
+            background: {
+                backgroundColor: "#ABB8C3",
+
+                hasShadow: true,
+                shadowColor: "rgba(0,0,0,0.55)",
+                shadowBlur: 68,
+                shadowOffsetY: 12,
+                shadowOffsetX: 0,
+
+                paddingBottom: 56,
+                paddingTop: 56,
+                paddingLeft: 56,
+                paddingRight: 56
             }
         };
 
@@ -117,6 +131,21 @@ export class ThemeBuilder {
         registerFont(path, { family: fontName });
 
         this.data.properties.fontName = fontName;
+        return this;
+    }
+
+    /**
+     * Change the background image property
+     * @param {keyof BackgroundProperties} key The key you want to change
+     * @param {BackgroundProperties[keyof BackgroundProperties]} value The value you want to set
+     * @return {ThemeBuilder}
+     */
+    public setBackgroundProperty<K extends keyof BackgroundProperties>(key: K, value: BackgroundProperties[K]) {
+        if (String(key).endsWith('Color') && !isHexadecimalColor(typeof value === 'string' ? value : ''))
+            throw new CarbonjsError(`The ${key.toString()} background color value is not a hexadecimal color!`);
+
+
+        this.data.background[key] = value;
         return this;
     }
 
@@ -192,6 +221,18 @@ export class ThemeBuilder {
             properties: {
                 fontSize: this.data.properties.fontSize,
                 fontName: this.data.properties.fontName
+            },
+            background: {
+                backgroundColor: this.data.background.backgroundColor,
+                hasShadow: this.data.background.hasShadow,
+                shadowColor: this.data.background.shadowColor,
+                shadowBlur: this.data.background.shadowBlur,
+                shadowOffsetY: this.data.background.shadowOffsetY,
+                shadowOffsetX: this.data.background.shadowOffsetX,
+                paddingBottom: this.data.background.paddingBottom,
+                paddingTop: this.data.background.paddingTop,
+                paddingLeft: this.data.background.paddingLeft,
+                paddingRight: this.data.background.paddingRight
             }
         });
     }
@@ -229,6 +270,16 @@ export class ThemeBuilder {
                 this.data.properties.fontSize > 26
             )
         ) throw new CarbonjsError("The font size property cant be less than 8, or more than 26.");
+
+        if (!data) {
+            for (const key in this.data.background) {
+                if (!key.endsWith('Color')) continue;
+
+                if (!isHexadecimalColor(data[key])) {
+                    throw new CarbonjsError(`The ${key} background color value is not a hexadecimal color!`);
+                }
+            }
+        }
 
         data ||= this.data.colors;
 
