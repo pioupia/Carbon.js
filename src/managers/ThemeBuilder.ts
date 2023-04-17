@@ -134,6 +134,12 @@ export class ThemeBuilder {
         return this;
     }
 
+    /**
+     * Change the background image property
+     * @param {keyof BackgroundProperties} key The key you want to change
+     * @param {BackgroundProperties[keyof BackgroundProperties]} value The value you want to set
+     * @return {ThemeBuilder}
+     */
     public setBackgroundProperty<K extends keyof BackgroundProperties>(key: K, value: BackgroundProperties[K]) {
         if (String(key).endsWith('Color') && !isHexadecimalColor(typeof value === 'string' ? value : ''))
             throw new CarbonjsError(`The ${key.toString()} background color value is not a hexadecimal color!`);
