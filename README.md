@@ -70,9 +70,12 @@ theme.setColor("backgroundColor", "#28211c") // Set the new Window Background co
     .setColor("defaultForegroundColor", "#baae9e") // Set the default color of the text
     .setColor("keyword", "#5ea6ea") // Set the new 'keyword' color
     .setFontSize(20) // Set the font-size to 20.
-    .setFontFamily("./Gravity-Bold.otf", "Gravity Bold") // Change the font to Gravity-Bold
     // /!\ The path is relative to the root of the project /!\
-    .setColor("string", "#54be0d");
+    .setFontFamily("./Gravity-Bold.otf", "Gravity Bold") // Change the font to Gravity-Bold
+    // Need a valid hex color (#fff, #ffffff, or #ffffffd0 for example)
+    .setColor("string", "#54be0d")
+    // Change the background property (color, shadow, padding)
+    .setBackgroundProperty("hasShadow", true);
 
 // Now, use the theme :
 const code = "const newVersion = 'My beautiful custom theme!';";
