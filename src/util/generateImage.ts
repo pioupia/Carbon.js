@@ -167,8 +167,10 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     const backgroundPadding = customTheme.getBackgroundPadding();
     const backgroundProperties = customTheme.getBackgroundProperties();
 
+    width += backgroundPadding.left + backgroundPadding.right;
+
     const canvas = createCanvas(
-        width + backgroundPadding.left + backgroundPadding.right,
+        width,
         evaluateHeight(data, width, customThemeProperties, backgroundPadding)
     );
     const ctx = canvas.getContext("2d");
