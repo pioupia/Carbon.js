@@ -216,11 +216,15 @@ export interface ThemeData {
     /**
      * Colors parameters
      */
-    colors: ThemeDataColor,
+    colors: ThemeDataColor;
     /**
      * Sizes parameters
      */
-    properties: ThemeDataProperties
+    properties: ThemeDataProperties;
+    /**
+     * Background properties
+     */
+    background: BackgroundProperties;
 }
 
 
@@ -235,13 +239,71 @@ interface OptionalThemeDataColor {
     text?: Partial<ThemeDataColorText>;
 }
 
+interface BackgroundProperties {
+    /**
+     * The background color
+     */
+    backgroundColor: string;
+
+    /**
+     * The top padding of the background
+     */
+    paddingTop: number;
+    /**
+     * The bottom padding of the background
+     */
+    paddingBottom: number;
+    /**
+     * The left padding of the background
+     */
+    paddingLeft: number;
+    /**
+     * The right padding of the background
+     */
+    paddingRight: number;
+
+    /**
+     * Whether there is a shadow under the window
+     */
+    hasShadow: boolean;
+
+    /**
+     * The blur of the shadow
+     */
+    shadowBlur: number;
+    /**
+     * The color of the shadow (hexadecimal)
+     */
+    shadowColor: string;
+    /**
+     * Distance that shadows will be offset horizontally
+     *
+     * @remarks
+     * This method behaves similarly
+     * to {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/shadowOffsetX}.
+     */
+    shadowOffsetX: number;
+    /**
+     * Distance that shadows will be offset vertically
+     *
+     * @remarks
+     * This method behaves similarly
+     * to {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/shadowOffsetY}.
+     */
+    shadowOffsetY: number;
+}
+
 export interface OptionalThemeData {
     /**
      * Colors parameters
      */
-    colors?: OptionalThemeDataColor,
+    colors?: OptionalThemeDataColor;
     /**
      * Sizes parameters
      */
-    properties?: Partial<ThemeDataProperties>
+    properties?: Partial<ThemeDataProperties>;
+    /**
+     * Background properties
+     */
+    background?: Partial<BackgroundProperties>;
 }
