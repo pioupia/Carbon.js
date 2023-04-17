@@ -1,7 +1,7 @@
 import { loadLanguage, parse } from "../src/util/common";
 import { evaluateHeight } from "../src/util/sizes";
 import * as assert from "assert";
-import {Languages, render, ThemeBuilder} from "../src";
+import {Languages, ThemeBuilder} from "../src";
 import CarbonjsError from "../src/errors/CarbonjsErrors";
 
 describe("Test parse function", () => {
