@@ -3,7 +3,7 @@ import type { Token } from "prismjs";
 import { ImageSizes } from "../types/common";
 import { evaluateHeight, getCharHeight } from "./sizes";
 import { ThemeBuilder } from "../managers/ThemeBuilder";
-import {backgroundPadding, ThemeDataColor} from "../types/themes";
+import {backgroundPadding, BackgroundProperties, ThemeDataColor} from "../types/themes";
 
 function drawText(
     ctx: CanvasRenderingContext2D, charHeight: number,
@@ -66,17 +66,33 @@ function drawCircle(ctx: CanvasRenderingContext2D,
     ctx.stroke();
 }
 
-function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: ThemeDataColor, padding: backgroundPadding) {
+function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: ThemeDataColor, backgroundProperties: BackgroundProperties) {
     ctx.lineWidth = 0.5;
+
+    const { paddingLeft, paddingTop, paddingRight, paddingBottom } = backgroundProperties;
+
+    // Draw the window background shadow
+    if (backgroundProperties.hasShadow) {
+        ctx.shadowColor = backgroundProperties.shadowColor;
+        ctx.shadowBlur = backgroundProperties.shadowBlur;
+        ctx.shadowOffsetY = backgroundProperties.shadowOffsetY;
+        ctx.shadowOffsetX = backgroundProperties.shadowOffsetX;
+    }
 
     // Draw the window background
     ctx.fillStyle = theme.window.backgroundColor;
-    ctx.fillRect(padding.left, padding.top, canvas.width - padding.right - padding.left, canvas.height - padding.bottom - padding.top);
+    ctx.fillRect(paddingLeft, paddingTop, canvas.width - paddingRight - paddingLeft, canvas.height - paddingBottom - paddingTop);
+
+    // Reset the shadow
+    ctx.shadowColor = "#00000000";
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
 
     // Draw the buttons
     const radius = (ImageSizes.headerHeight - 0.5) / 2;
-    const leftPosition = ImageSizes.marginLeft + radius + padding.left;
-    const topPosition = ImageSizes.marginTop + radius + padding.top;
+    const leftPosition = ImageSizes.marginLeft + radius + paddingLeft;
+    const topPosition = ImageSizes.marginTop + radius + paddingTop;
 
     ctx.fillStyle = theme.window.closeWindowColor;
     ctx.strokeStyle = theme.window.closeWindowColorStroke;
@@ -165,7 +181,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     ctx.fillStyle = backgroundProperties.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    drawTheWindow(canvas, ctx, customThemeColors, backgroundPadding);
+    drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties);
 
     ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fontName;
     ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
