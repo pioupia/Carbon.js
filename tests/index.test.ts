@@ -1,7 +1,7 @@
 import { loadLanguage, parse } from "../src/util/common";
 import { evaluateHeight } from "../src/util/sizes";
 import * as assert from "assert";
-import { Languages, ThemeBuilder } from "../src";
+import {Languages, render, ThemeBuilder} from "../src";
 import CarbonjsError from "../src/errors/CarbonjsErrors";
 
 describe("Test parse function", () => {
@@ -45,6 +45,12 @@ describe("Test evaluate the height of a text", () => {
                 {
                     fontName: "Ubuntu",
                     fontSize: 16
+                },
+                {
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
                 }
             )
         ).toBe(109.5);
@@ -61,6 +67,12 @@ describe("Test evaluate the height of a text", () => {
                 {
                     fontSize: 16,
                     fontName: "Ubuntu"
+                },
+                {
+                    left: 0,
+                    right: 0,
+                    top: 0,
+                    bottom: 0
                 }
             ).toFixed(1)
         ).toBe("218.1");
@@ -127,6 +139,20 @@ describe("Create a custom theme", () => {
             properties: {
                 fontSize: 16,
                 fontName: "Ubuntu"
+            },
+            background: {
+                backgroundColor: "#ABB8C3",
+
+                hasShadow: true,
+                shadowColor: "#0000008C",
+                shadowBlur: 68,
+                shadowOffsetY: 12,
+                shadowOffsetX: 0,
+
+                paddingBottom: 56,
+                paddingTop: 56,
+                paddingLeft: 56,
+                paddingRight: 56
             }
         });
     });
@@ -189,6 +215,20 @@ describe("Create a custom theme", () => {
             properties: {
                 fontSize: 16,
                 fontName: "Ubuntu"
+            },
+            background: {
+                backgroundColor: "#ABB8C3",
+
+                hasShadow: true,
+                shadowColor: "#0000008C",
+                shadowBlur: 68,
+                shadowOffsetY: 12,
+                shadowOffsetX: 0,
+
+                paddingBottom: 56,
+                paddingTop: 56,
+                paddingLeft: 56,
+                paddingRight: 56
             }
         });
     });
@@ -258,10 +298,6 @@ describe("Create a custom theme", () => {
 
         expect(() => {
             customTheme.setColor("backgroundColor", "#fffff");
-        }).toThrow(CarbonjsError);
-
-        expect(() => {
-            customTheme.setColor("backgroundColor", "#ffffffff");
         }).toThrow(CarbonjsError);
 
         expect(() => {
