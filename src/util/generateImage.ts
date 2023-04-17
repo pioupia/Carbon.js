@@ -18,9 +18,6 @@ function drawText(
         const isBreakLine = text[i] === "\n";
         if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
 
-
-        if (text.includes("obj")) console.log(isBreakLine, (lastX + charWidth + ImageSizes.marginRight) > width, width, lastX + charWidth + ImageSizes.marginRight);
-
         if ((lastX + charWidth + ImageSizes.marginRight > width) || isBreakLine) {
             const sentenceWidth = ctx.measureText(
                 text.slice(0, lastIndexSpace)
@@ -48,10 +45,7 @@ function drawText(
         lastX += charWidth;
     }
 
-    if (text === "\n") {
-        lastY += ImageSizes.textLineHeight + charHeight;
-        lastX = ImageSizes.marginLeft + backgroundPadding.left;
-    } else if (text) {
+    if (text && text !== "\n") {
         ctx.fillText(text, lastX - ctx.measureText(text).width, lastY);
     }
 
@@ -81,7 +75,9 @@ function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: The
 
     // Draw the window background
     ctx.fillStyle = theme.window.backgroundColor;
-    ctx.fillRect(paddingLeft, paddingTop, canvas.width - paddingRight - paddingLeft, canvas.height - paddingBottom - paddingTop);
+    ctx.roundRect(paddingLeft, paddingTop, canvas.width - paddingRight - paddingLeft, canvas.height - paddingBottom - paddingTop,
+        5);
+    ctx.fill();
 
     // Reset the shadow
     ctx.shadowColor = "#00000000";
