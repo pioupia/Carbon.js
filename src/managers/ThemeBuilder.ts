@@ -68,7 +68,7 @@ export class ThemeBuilder {
                 backgroundColor: "#ABB8C3",
 
                 hasShadow: true,
-                shadowColor: "rgba(0,0,0,0.55)",
+                shadowColor: "#0000008C",
                 shadowBlur: 68,
                 shadowOffsetY: 12,
                 shadowOffsetX: 0,
@@ -147,6 +147,30 @@ export class ThemeBuilder {
 
         this.data.background[key] = value;
         return this;
+    }
+
+    /**
+     * Get the theme background padding
+     *
+     * @return {backgroundPadding} The background padding
+     */
+    public getBackgroundPadding() {
+        const res = this.getBackgroundProperties();
+
+        return {
+            top: res.paddingTop,
+            bottom: res.paddingBottom,
+            left: res.paddingLeft,
+            right: res.paddingRight
+        };
+    }
+
+    /**
+     * Get the background properties
+     * @return {BackgroundProperties}
+     */
+    public getBackgroundProperties() {
+        return this.toJSON().background;
     }
 
     public getFont(): Readonly<ThemeDataProperties> {
@@ -275,7 +299,7 @@ export class ThemeBuilder {
             for (const key in this.data.background) {
                 if (!key.endsWith('Color')) continue;
 
-                if (!isHexadecimalColor(data[key])) {
+                if (!isHexadecimalColor(this.data.background[key as keyof BackgroundProperties] as string)) {
                     throw new CarbonjsError(`The ${key} background color value is not a hexadecimal color!`);
                 }
             }
