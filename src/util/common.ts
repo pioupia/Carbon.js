@@ -13,7 +13,7 @@ export function parse(code: string, language: Grammar) {
  * @returns {boolean}
  */
 export function isHexadecimalColor(color: string): boolean {
-    return /^#([0-9a-f]{3}){1,2}$/i.test(color);
+    return /^#(([0-9a-f]{3}){2}([0-9a-f]{2})?|([0-9a-f]{3}))$/i.test(color);
 }
 
 /**
