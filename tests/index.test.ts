@@ -307,6 +307,9 @@ describe("Create a custom theme", () => {
         expect(() => {
             customTheme.setFontSize(28);
         }).toThrow();
+
+        customTheme.setColor("backgroundColor", "rgba(0, 0, 0, .5)");
+        expect(customTheme.getColors().window.backgroundColor).toBe("rgba(0, 0, 0, .5)");
     });
 });
 
