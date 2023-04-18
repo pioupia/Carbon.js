@@ -1,6 +1,6 @@
 import {BackgroundProperties, OptionalThemeData, ThemeData, ThemeDataColor, ThemeDataProperties} from "../types/themes";
 import CarbonjsError from "../errors/CarbonjsErrors";
-import { deepFreeze, isHexadecimalColor } from "../util/common";
+import { deepFreeze, isValidColor } from "../util/common";
 import { registerFont } from "canvas";
 
 /**
@@ -97,7 +97,7 @@ export class ThemeBuilder {
         const isWindow = colors.window[name as keyof typeof colors.window];
 
         if (!isText && !isWindow) throw new CarbonjsError(`The ${name} color value doesn't exist!`);
-        if (!isHexadecimalColor(color)) throw new CarbonjsError(`The color value '${color}' is not a valid color!`);
+        if (!isValidColor(color)) throw new CarbonjsError(`The color value '${color}' is not a valid color!`);
 
         if (isText) {
             colors.text[name as keyof typeof colors.text] = color;
@@ -141,7 +141,7 @@ export class ThemeBuilder {
      * @return {ThemeBuilder}
      */
     public setBackgroundProperty<K extends keyof BackgroundProperties>(key: K, value: BackgroundProperties[K]) {
-        if (String(key).endsWith('Color') && !isHexadecimalColor(typeof value === 'string' ? value : ''))
+        if (String(key).endsWith('Color') && !isValidColor(typeof value === 'string' ? value : ''))
             throw new CarbonjsError(`The ${key.toString()} background color value is not a hexadecimal color!`);
 
 
@@ -299,7 +299,7 @@ export class ThemeBuilder {
             for (const key in this.data.background) {
                 if (!key.endsWith('Color')) continue;
 
-                if (!isHexadecimalColor(this.data.background[key as keyof BackgroundProperties] as string)) {
+                if (!isValidColor(this.data.background[key as keyof BackgroundProperties] as string)) {
                     throw new CarbonjsError(`The ${key} background color value is not a hexadecimal color!`);
                 }
             }
@@ -313,7 +313,7 @@ export class ThemeBuilder {
                 continue;
             }
 
-            if (!isHexadecimalColor(data[key])) {
+            if (!isValidColor(data[key])) {
                 throw new CarbonjsError(`The ${key} color value is not a hexadecimal color!`);
             }
         }
