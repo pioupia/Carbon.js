@@ -8,12 +8,16 @@ export function parse(code: string, language: Grammar) {
 }
 
 /**
- * Verify if a color is a hexadecimal color or not.
+ * Verify if a color is a valid color or not.
  * @param {string} color
  * @returns {boolean}
  */
-export function isHexadecimalColor(color: string): boolean {
-    return /^#(([0-9a-f]{3}){2}([0-9a-f]{2})?|([0-9a-f]{3}))$/i.test(color);
+export function isValidColor(color: string): boolean {
+    return /^#(([0-9a-f]{3}){2}([0-9a-f]{2})?|([0-9a-f]{3}))$/i.test(color)
+        || /^rgba\s*\((\s*\d*\.?\d*,){3}\s*(0|0?\.\d*)\)$/i.test(color)
+        || /^rgb\s*\((\s*\d*\.?\d*,){2}\s?\d*\.?\d*\)$/i.test(color)
+        || /^hsla\s*\(\s*\d*\.?\d*,(\s*\d*\.?\d*%,){2}\s*(0|0?\.\d*)\)$/i.test(color)
+        || /^ hsl\s*\(\s*\d*\.?\d*,\s*\d*\.?\d*%,\s*\d*\.?\d*%\)$/i.test(color);
 }
 
 /**
