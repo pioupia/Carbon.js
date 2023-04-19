@@ -307,10 +307,21 @@ describe("Create a custom theme", () => {
         expect(() => {
             customTheme.setFontSize(28);
         }).toThrow();
+    });
 
+    it("Colours tests", () => {
         customTheme.setColor("backgroundColor", "rgba(0, 0, 0, .5)");
         expect(customTheme.getColors().window.backgroundColor).toBe("rgba(0, 0, 0, .5)");
-    });
+
+        customTheme.setColor("backgroundColor", "rgb(0, 0, 0)");
+        expect(customTheme.getColors().window.backgroundColor).toBe("rgba(0, 0, 0)");
+
+        customTheme.setColor("backgroundColor", "hsl(0, 0%, 0%)");
+        expect(customTheme.getColors().window.backgroundColor).toBe("rgba(0, 0%, 0%)");
+
+        customTheme.setColor("backgroundColor", "hsla(0, 0%, 0%, 0.25)");
+        expect(customTheme.getColors().window.backgroundColor).toBe("hsla(0, 0%, 0%, 0.25)");
+    })
 });
 
 
