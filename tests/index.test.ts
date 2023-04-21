@@ -314,10 +314,10 @@ describe("Create a custom theme", () => {
         expect(customTheme.getColors().window.backgroundColor).toBe("rgba(0, 0, 0, .5)");
 
         customTheme.setColor("backgroundColor", "rgb(0, 0, 0)");
-        expect(customTheme.getColors().window.backgroundColor).toBe("rgba(0, 0, 0)");
+        expect(customTheme.getColors().window.backgroundColor).toBe("rgb(0, 0, 0)");
 
         customTheme.setColor("backgroundColor", "hsl(0, 0%, 0%)");
-        expect(customTheme.getColors().window.backgroundColor).toBe("rgba(0, 0%, 0%)");
+        expect(customTheme.getColors().window.backgroundColor).toBe("hsl(0, 0%, 0%)");
 
         customTheme.setColor("backgroundColor", "hsla(0, 0%, 0%, 0.25)");
         expect(customTheme.getColors().window.backgroundColor).toBe("hsla(0, 0%, 0%, 0.25)");
