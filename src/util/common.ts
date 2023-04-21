@@ -17,7 +17,7 @@ export function isValidColor(color: string): boolean {
         || /^rgba\s*\((\s*\d*\.?\d*,){3}\s*(0|0?\.\d*)\)$/i.test(color)
         || /^rgb\s*\((\s*\d*\.?\d*,){2}\s?\d*\.?\d*\)$/i.test(color)
         || /^hsla\s*\(\s*\d*\.?\d*,(\s*\d*\.?\d*%,){2}\s*(0|0?\.\d*)\)$/i.test(color)
-        || /^ hsl\s*\(\s*\d*\.?\d*,\s*\d*\.?\d*%,\s*\d*\.?\d*%\)$/i.test(color);
+        || /^hsl\s*\(\s*\d*\.?\d*,\s*\d*\.?\d*%,\s*\d*\.?\d*%\)$/i.test(color);
 }
 
 /**
