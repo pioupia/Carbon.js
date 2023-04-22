@@ -60,7 +60,7 @@ function drawCircle(ctx: CanvasRenderingContext2D,
     ctx.stroke();
 }
 
-function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: ThemeDataColor, backgroundProperties: BackgroundProperties) {
+function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: ThemeDataColor, backgroundProperties: BackgroundProperties, title?: string) {
     ctx.lineWidth = 0.5;
 
     const { paddingLeft, paddingTop, paddingRight, paddingBottom } = backgroundProperties;
@@ -111,6 +111,17 @@ function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: The
         topPosition,
         radius
     );
+
+    // Draw the text in the center of the window
+    if (title) {
+        const textMeasure = ctx.measureText(title);
+
+        const centerWindow = (canvas.width - paddingRight - paddingLeft) / 2;
+        const centerText = centerWindow - (textMeasure.width / 2);
+
+        ctx.fillStyle = theme.window.defaultForegroundColor;
+        ctx.fillText(title, centerText, topPosition + (getCharHeight(textMeasure) / 4));
+    }
 }
 
 function iterateThroughParts(
@@ -161,7 +172,7 @@ function iterateThroughParts(
     return [lastX, lastY];
 }
 
-export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width: number): Canvas {
+export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width: number, title?: string): Canvas {
     const customThemeColors = customTheme.getColors();
     const customThemeProperties = customTheme.getFont();
     const backgroundPadding = customTheme.getBackgroundPadding();
@@ -179,10 +190,10 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     ctx.fillStyle = backgroundProperties.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties);
-
     ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fontName;
     ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
+
+    drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties, title);
 
     let lastX = ImageSizes.marginLeft + backgroundPadding.left;
     let lastY =
