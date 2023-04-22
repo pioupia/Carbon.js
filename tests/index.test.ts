@@ -1,7 +1,7 @@
 import { loadLanguage, parse } from "../src/util/common";
 import { evaluateHeight } from "../src/util/sizes";
 import * as assert from "assert";
-import {Languages, ThemeBuilder} from "../src";
+import { Languages, render, ThemeBuilder } from "../src";
 import CarbonjsError from "../src/errors/CarbonjsErrors";
 
 describe("Test parse function", () => {
@@ -126,6 +126,7 @@ describe("Create a custom theme", () => {
                     deleted: "#d44"
                 },
                 window: {
+                    titleColor: "rgba(207,209,208,0.85)",
                     backgroundColor: "#151718",
                     defaultForegroundColor: "#CFD2D1",
                     closeWindowColor: "#FF5F56",
@@ -202,6 +203,7 @@ describe("Create a custom theme", () => {
                     deleted: "#d44"
                 },
                 window: {
+                    titleColor: "rgba(207,209,208,0.85)",
                     backgroundColor: "#151718",
                     defaultForegroundColor: "#CFD2D1",
                     closeWindowColor: "#FF5F56",
@@ -275,6 +277,7 @@ describe("Create a custom theme", () => {
                 deleted: "#d44"
             },
             window: {
+                titleColor: "rgba(207,209,208,0.85)",
                 backgroundColor: "#151718",
                 defaultForegroundColor: "#CFD2D1",
                 closeWindowColor: "#FF5F56",
@@ -337,3 +340,28 @@ describe("Load languages", () => {
         }
     });
 });
+
+const fs = require("node:fs");
+
+const code = `
+const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
+
+const compose = (...fns) => res => fns.reduce((accum, next) => next(accum), res)
+
+const unfold = (f, seed) => {
+  const go = (f, seed, acc) => {
+    const res = f(seed)
+    return res ? go(f, res[1], acc.concat([res[0]])) : acc
+  }
+  return go(f, seed, [])
+}
+`;
+const out = fs.createWriteStream(__dirname + '/test.jpeg');
+
+const canvas = render(code, Languages.javascript, { title: "index.js" }); // Will return the Canvas image.
+const stream = canvas.createJPEGStream({
+    quality: 1,
+    chromaSubsampling: false
+});
+stream.pipe(out);
+out.on('finish', () =>  null);
