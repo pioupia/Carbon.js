@@ -1,6 +1,6 @@
 {
   "name": "carbonimg",
-  "version": "1.5.2-BETA",
+  "version": "1.6.0-BETA",
   "description": "A Carbon image generator from code",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
