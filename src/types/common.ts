@@ -1,3 +1,5 @@
+import { ThemeBuilder } from "../managers/ThemeBuilder";
+
 export enum ImageSizes {
     marginLeft = 20,
     marginRight = 30,
@@ -7,4 +9,10 @@ export enum ImageSizes {
     headerHeight = 12.5,
     headerBottomMargin = 20,
     textLineHeight = 19.2,
+}
+
+export interface Options {
+    customTheme?: ThemeBuilder;
+    customWidth?: number;
+    title?: string;
 }
