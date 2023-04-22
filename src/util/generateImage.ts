@@ -117,7 +117,7 @@ function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: The
         const textMeasure = ctx.measureText(title);
 
         const centerWindow = (canvas.width - paddingRight - paddingLeft) / 2;
-        const centerText = centerWindow - (textMeasure.width / 2);
+        const centerText = centerWindow + (textMeasure.width / 2);
 
         ctx.fillStyle = theme.window.titleColor;
         ctx.fillText(title, centerText, topPosition + (getCharHeight(textMeasure) / 4));
