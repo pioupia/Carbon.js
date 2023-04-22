@@ -157,6 +157,10 @@ interface ThemeDataColorText {
 
 interface ThemeDataColorWindow {
     /**
+     * Title color of the window
+     */
+    titleColor: string;
+    /**
      * Background color of the window
      */
     backgroundColor: string;

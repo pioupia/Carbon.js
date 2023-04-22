@@ -50,6 +50,7 @@ export class ThemeBuilder {
                     deleted: "#d44"
                 },
                 window: {
+                    titleColor: "rgba(207,209,208,0.85)",
                     backgroundColor: "#151718",
                     defaultForegroundColor: "#CFD2D1",
                     closeWindowColor: "#FF5F56",
@@ -232,6 +233,7 @@ export class ThemeBuilder {
                     deleted: this.data.colors.text.deleted
                 },
                 window: {
+                    titleColor: this.data.colors.window.titleColor,
                     backgroundColor: this.data.colors.window.backgroundColor,
                     defaultForegroundColor: this.data.colors.window.defaultForegroundColor,
                     closeWindowColor: this.data.colors.window.closeWindowColor,
