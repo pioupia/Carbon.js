@@ -12,7 +12,7 @@ export enum ImageSizes {
 }
 
 export interface Options {
-    customTheme?: ThemeBuilder;
-    customWidth?: number;
+    theme?: ThemeBuilder;
+    width?: number;
     title?: string;
 }
