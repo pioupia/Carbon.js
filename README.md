@@ -48,13 +48,15 @@ out.on('finish', () =>  console.log('The JPEG file was created.'));
 ## Render function:
 
 ```ts
-render(code: string, language: Grammar, customTheme?: ThemeBuilder, customWidth?: number): Canvas
+render(code: string, language: Grammar, options?: Options): Canvas
 ```
 
 * code – The code you want to render.
 * language – The programming language used.
-* customTheme – The custom theme you want to apply to this image.
-* customWidth – The custom with of the image (default: 750px)
+* options - The options for the image.
+  * title - The title of the window.
+  * theme – The custom theme you want to apply to this image.
+  * width – The custom with of the image (default: 750px)
 
 
 
@@ -66,14 +68,15 @@ For example:
 import { ThemeBuilder } from "carbonimg";
 
 const theme = new ThemeBuilder();
-theme.setColor("backgroundColor", "#28211c") // Set the new Window Background color
+theme.setColor("backgroundColor", "#28211cd0") // Set the new Window Background color
     .setColor("defaultForegroundColor", "#baae9e") // Set the default color of the text
     .setColor("keyword", "#5ea6ea") // Set the new 'keyword' color
     .setFontSize(20) // Set the font-size to 20.
     // /!\ The path is relative to the root of the project /!\
     .setFontFamily("./Gravity-Bold.otf", "Gravity Bold") // Change the font to Gravity-Bold
-    // Need a valid hex color (#fff, #ffffff, or #ffffffd0 for example)
+    // Need a valid color (hex, rgb, rgba, hsl, et hsla are accepted)
     .setColor("string", "#54be0d")
+    .setColor("titleColor", "rgba(0, 0, 0, .35)")
     // Change the background property (color, shadow, padding)
     .setBackgroundProperty("hasShadow", true);
 
@@ -81,7 +84,7 @@ theme.setColor("backgroundColor", "#28211c") // Set the new Window Background co
 const code = "const newVersion = 'My beautiful custom theme!';";
 const out = fs.createWriteStream(__dirname + '/code.jpeg');
 
-const canvas = render(code, Languages.javascript, theme);
+const canvas = render(code, Languages.javascript, { theme: theme });
 const stream = canvas.createJPEGStream({
     quality: 1,
     chromaSubsampling: false
