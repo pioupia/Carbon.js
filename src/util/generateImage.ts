@@ -1,29 +1,40 @@
 import { createCanvas, CanvasRenderingContext2D, Canvas } from "canvas";
 import type { Token } from "prismjs";
-import { ImageSizes, Options } from "../types/common";
+import { ImageSizes, LineOptions, Options } from "../types/common";
 import { evaluateHeight, getCharHeight } from "./sizes";
 import { ThemeBuilder } from "../managers/ThemeBuilder";
 import {backgroundPadding, BackgroundProperties, ThemeDataColor} from "../types/themes";
+import { deepFreeze } from "./common";
 
 function drawText(
     ctx: CanvasRenderingContext2D, charHeight: number,
     text: string,
     lastX: number, lastY: number,
-    width: number, backgroundPadding: backgroundPadding, textLength?: number): [number, number] {
+    width: number, backgroundPadding: backgroundPadding,
+    options: LineOptions, fgColor: string, textLength?: number): [number, number] {
     textLength ||= text.length;
 
     let lastIndexSpace = 0;
     for (let i = 0; i < textLength; i++) {
         const charWidth = ctx.measureText(text[i] as string).width;
         const isBreakLine = text[i] === "\n";
+        const lineOptionWidth = options.lineNumbers ?
+            (
+                ctx.measureText(
+                    String(
+                        options.firstLineNumber
+                    )
+                ).width + ImageSizes.totalLineNumberMargin
+            ) : 0;
+
         if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
 
-        if ((lastX + charWidth + ImageSizes.marginRight > width) || isBreakLine) {
+        if ((lastX + charWidth + ImageSizes.marginRight > width - lineOptionWidth) || isBreakLine) {
             const sentenceWidth = ctx.measureText(
                 text.slice(0, lastIndexSpace)
             ).width;
             let cuttingIndex = i;
-            if (sentenceWidth + lastY + ImageSizes.marginRight <= width) {
+            if (sentenceWidth + lastY + ImageSizes.marginRight <= width - lineOptionWidth) {
                 cuttingIndex = lastIndexSpace;
             }
 
@@ -40,6 +51,18 @@ function drawText(
 
             lastY += ImageSizes.textLineHeight + charHeight;
             lastX = backgroundPadding.left + ImageSizes.marginLeft + charWidth;
+
+            if (options.lineNumbers && isBreakLine) {
+                const previousFillStyle = ctx.fillStyle;
+                const lineNumber = String(options.firstLineNumber++);
+
+                ctx.fillStyle = fgColor;
+                ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMargin, lastY);
+
+                ctx.fillStyle = previousFillStyle;
+            }
+
+            lastX += lineOptionWidth;
         }
 
         lastX += charWidth;
@@ -130,6 +153,7 @@ function iterateThroughParts(
     lastX: number, lastY: number,
     charHeight: number, width: number,
     backgroundPadding: backgroundPadding,
+    options: LineOptions,
     generalType?: string): [number, number] {
 
     for (const part of data) {
@@ -137,7 +161,7 @@ function iterateThroughParts(
 
         if (isString && !generalType) {
             ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
-            [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width, backgroundPadding);
+            [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width, backgroundPadding, options, customThemeColors.window.defaultForegroundColor);
         } else {
             ctx.fillStyle = customThemeColors.text[(((part as Token).type) || generalType) as keyof typeof customThemeColors.text] || customThemeColors.window.defaultForegroundColor;
 
@@ -151,6 +175,7 @@ function iterateThroughParts(
                     charHeight,
                     width,
                     backgroundPadding,
+                    options,
                     part.type
                 );
                 continue;
@@ -164,6 +189,8 @@ function iterateThroughParts(
                 lastY,
                 width,
                 backgroundPadding,
+                options,
+                customThemeColors.window.defaultForegroundColor,
                 part.length
             );
         }
@@ -177,6 +204,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     const customThemeProperties = customTheme.getFont();
     const backgroundPadding = customTheme.getBackgroundPadding();
     const backgroundProperties = customTheme.getBackgroundProperties();
+    const lineOptions: LineOptions = { lineNumbers: <boolean>options.lineNumbers, firstLineNumber: <number>options.firstLineNumber };
 
     width += backgroundPadding.left + backgroundPadding.right;
 
@@ -204,7 +232,16 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
 
     const charHeight = getCharHeight(ctx.measureText("]"));
 
-    iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, canvas.width - backgroundPadding.right, backgroundPadding);
+    if (options.lineNumbers) {
+        ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
+
+        const lineNumber = String(lineOptions.firstLineNumber++);
+        ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMargin, lastY);
+
+        lastX += ImageSizes.totalLineNumberMargin + ctx.measureText(lineNumber).width;
+    }
+
+    iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, canvas.width - backgroundPadding.right, backgroundPadding, lineOptions);
 
     return canvas;
 }
