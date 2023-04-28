@@ -98,7 +98,7 @@ function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: The
     ctx.strokeStyle = theme.window.minifyWindowColorStroke;
     drawCircle(
         ctx,
-        leftPosition + radius * 2 + ImageSizes.MarginBetweenStatusButtons,
+        leftPosition + radius * 2 + ImageSizes.marginBetweenStatusButtons,
         topPosition,
         radius
     );
@@ -107,7 +107,7 @@ function drawTheWindow(canvas: Canvas, ctx: CanvasRenderingContext2D, theme: The
     ctx.strokeStyle = theme.window.reduceWindowColorStroke;
     drawCircle(
         ctx,
-        leftPosition + (radius * 2 + ImageSizes.MarginBetweenStatusButtons) * 2,
+        leftPosition + (radius * 2 + ImageSizes.marginBetweenStatusButtons) * 2,
         topPosition,
         radius
     );
