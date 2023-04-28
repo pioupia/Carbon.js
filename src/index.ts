@@ -25,7 +25,10 @@ export function render(code: string, language: LanguageObject, options?: Options
     if (typeof options?.width === "number" && options.width <= 100)
         throw new CarbonjsError("The 'width' can't be less than 100.");
 
-    if (options) options.firstLineNumber ??= 1;
+    if (options) {
+        options.firstLineNumber ??= 1;
+        options.lineNumbers ||= false;
+    }
 
     loadLanguage(language);
 
