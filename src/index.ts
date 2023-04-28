@@ -17,15 +17,19 @@ import {Options} from "./types/common";
  * @param {ThemeBuilder=} options.theme The custom theme you want to apply to this image.
  * @param {number=} options.width The custom with of the image (default: 750px).
  * @param {string=} options.title The title of the window.
+ * @param {boolean=} options.lineNumbers Enable the line number (default: false).
+ * @param {number=} options.firstLineNumber The number of the first line (default: 1).
  * @return {Canvas} The canvas image
  */
 export function render(code: string, language: LanguageObject, options?: Options): Canvas {
     if (typeof options?.width === "number" && options.width <= 100)
         throw new CarbonjsError("The 'width' can't be less than 100.");
 
+    if (options) options.firstLineNumber ??= 1;
+
     loadLanguage(language);
 
-    return draw(parse(code, language.lang), options?.theme || defaultTheme, options?.width || 750, options?.title);
+    return draw(parse(code, language.lang), options?.theme || defaultTheme, options?.width || 750, <Options>options);
 }
 
 export { Languages, ThemeBuilder };
