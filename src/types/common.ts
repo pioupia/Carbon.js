@@ -11,8 +11,13 @@ export enum ImageSizes {
     textLineHeight = 19.2,
 }
 
-export interface Options {
+export interface Options extends Partial<LineOptions>{
     theme?: ThemeBuilder;
     width?: number;
     title?: string;
+}
+
+export interface LineOptions {
+    lineNumbers: boolean;
+    firstLineNumber: number;
 }
