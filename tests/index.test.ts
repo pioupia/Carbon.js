@@ -51,6 +51,10 @@ describe("Test evaluate the height of a text", () => {
                     right: 0,
                     top: 0,
                     bottom: 0
+                },
+                {
+                    lineNumbers: false,
+                    firstLineNumber: 1
                 }
             )
         ).toBe(109.5);
@@ -73,6 +77,10 @@ describe("Test evaluate the height of a text", () => {
                     right: 0,
                     top: 0,
                     bottom: 0
+                },
+                {
+                    lineNumbers: false,
+                    firstLineNumber: 1
                 }
             ).toFixed(1)
         ).toBe("218.1");
