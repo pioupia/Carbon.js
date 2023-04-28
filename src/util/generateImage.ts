@@ -182,7 +182,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
 
     const canvas = createCanvas(
         width,
-        evaluateHeight(data, width, customThemeProperties, backgroundPadding, { hasLine: <boolean>options.lineNumbers, firstLine: <number>options.firstLineNumber })
+        evaluateHeight(data, width, customThemeProperties, backgroundPadding, { lineNumbers: <boolean>options.lineNumbers, firstLineNumber: <number>options.firstLineNumber })
     );
     const ctx = canvas.getContext("2d");
 
