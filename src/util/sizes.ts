@@ -84,7 +84,7 @@ function getHeightOfAText(
                     String(
                         isBreakLine ? options.firstLineNumber++ : options.firstLineNumber
                     )
-                ).width + ImageSizes.lineNumberMargin*2
+                ).width + ImageSizes.totalLineNumberMargin
             ) : 0;
 
         if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
@@ -126,7 +126,7 @@ export function evaluateHeight(data: (string | Token)[], width: number, font: Th
     const charHeight = getCharHeight(ctx.measureText("]"));
 
     if (options.lineNumbers) {
-        lastX += (ImageSizes.lineNumberMargin * 2) + ctx.measureText(String(options.firstLineNumber)).width;
+        lastX += (ImageSizes.totalLineNumberMargin) + ctx.measureText(String(options.firstLineNumber)).width;
     }
 
     lastY = getIterateThroughParts(
