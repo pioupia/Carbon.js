@@ -1,5 +1,5 @@
 import {createCanvas, CanvasRenderingContext2D, TextMetrics} from "canvas";
-import {ImageSizes} from "../types/common";
+import { ImageSizes, LineOptions } from "../types/common";
 import {backgroundPadding, ThemeDataProperties} from "../types/themes";
 import type {Token} from "prismjs";
 
@@ -98,7 +98,7 @@ function getHeightOfAText(
     return [lastX, lastY];
 }
 
-export function evaluateHeight(data: (string | Token)[], width: number, font: ThemeDataProperties, backgroundPadding: backgroundPadding) {
+export function evaluateHeight(data: (string | Token)[], width: number, font: ThemeDataProperties, backgroundPadding: backgroundPadding, { lineNumbers, firstLineNumber }: LineOptions) {
     let lastX = ImageSizes.marginLeft + backgroundPadding.left;
     let lastY =
         ImageSizes.marginTop * 2 +

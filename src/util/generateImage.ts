@@ -1,6 +1,6 @@
 import { createCanvas, CanvasRenderingContext2D, Canvas } from "canvas";
 import type { Token } from "prismjs";
-import { ImageSizes } from "../types/common";
+import { ImageSizes, Options } from "../types/common";
 import { evaluateHeight, getCharHeight } from "./sizes";
 import { ThemeBuilder } from "../managers/ThemeBuilder";
 import {backgroundPadding, BackgroundProperties, ThemeDataColor} from "../types/themes";
@@ -172,7 +172,7 @@ function iterateThroughParts(
     return [lastX, lastY];
 }
 
-export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width: number, title?: string): Canvas {
+export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width: number, options: Options): Canvas {
     const customThemeColors = customTheme.getColors();
     const customThemeProperties = customTheme.getFont();
     const backgroundPadding = customTheme.getBackgroundPadding();
@@ -182,7 +182,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
 
     const canvas = createCanvas(
         width,
-        evaluateHeight(data, width, customThemeProperties, backgroundPadding)
+        evaluateHeight(data, width, customThemeProperties, backgroundPadding, { hasLine: <boolean>options.lineNumbers, firstLine: <number>options.firstLineNumber })
     );
     const ctx = canvas.getContext("2d");
 
@@ -193,7 +193,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fontName;
     ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
-    drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties, title);
+    drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties, options.title);
 
     let lastX = ImageSizes.marginLeft + backgroundPadding.left;
     let lastY =
