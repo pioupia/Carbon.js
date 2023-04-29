@@ -4,7 +4,6 @@ import { ImageSizes, LineOptions, Options } from "../types/common";
 import { evaluateHeight, getCharHeight } from "./sizes";
 import { ThemeBuilder } from "../managers/ThemeBuilder";
 import {backgroundPadding, BackgroundProperties, ThemeDataColor} from "../types/themes";
-import { deepFreeze } from "./common";
 
 function drawText(
     ctx: CanvasRenderingContext2D, charHeight: number,
@@ -50,7 +49,7 @@ function drawText(
             i -= cuttingIndex;
 
             lastY += ImageSizes.textLineHeight + charHeight;
-            lastX = backgroundPadding.left + ImageSizes.marginLeft + charWidth;
+            lastX = backgroundPadding.left + charWidth;
 
             if (options.lineNumbers && isBreakLine) {
                 const previousFillStyle = ctx.fillStyle;
@@ -62,7 +61,7 @@ function drawText(
                 ctx.fillStyle = previousFillStyle;
             }
 
-            lastX += lineOptionWidth;
+            lastX += lineOptionWidth + ImageSizes.marginLeft;
         }
 
         lastX += charWidth;
@@ -204,7 +203,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     const customThemeProperties = customTheme.getFont();
     const backgroundPadding = customTheme.getBackgroundPadding();
     const backgroundProperties = customTheme.getBackgroundProperties();
-    const lineOptions: LineOptions = { lineNumbers: <boolean>options.lineNumbers, firstLineNumber: <number>options.firstLineNumber };
+    const lineOptions: LineOptions = { lineNumbers: options?.lineNumbers || false, firstLineNumber: options?.firstLineNumber ?? 1 };
 
     width += backgroundPadding.left + backgroundPadding.right;
 
@@ -236,7 +235,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
         ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
         const lineNumber = String(lineOptions.firstLineNumber++);
-        ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMargin, lastY);
+        ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMargin - ImageSizes.marginLeft, lastY);
 
         lastX += ImageSizes.totalLineNumberMargin + ctx.measureText(lineNumber).width;
     }
