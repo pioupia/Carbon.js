@@ -54,9 +54,10 @@ describe("Test evaluate the height of a text", () => {
                 },
                 {
                     lineNumbers: false,
-                    firstLineNumber: 1
+                    firstLineNumber: 1,
+                    lineNumberWidth: 0
                 }
-            )
+            ).height
         ).toBe(109.5);
     });
 
@@ -80,9 +81,10 @@ describe("Test evaluate the height of a text", () => {
                 },
                 {
                     lineNumbers: false,
-                    firstLineNumber: 1
+                    firstLineNumber: 1,
+                    lineNumberWidth: 0
                 }
-            ).toFixed(1)
+            ).height.toFixed(1)
         ).toBe("218.1");
     });
 });

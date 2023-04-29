@@ -135,7 +135,10 @@ export function evaluateHeight(data: (string | Token)[], width: number, font: Th
     let lastLineNumber = 0;
 
     if (options.lineNumbers) {
-        lastLineNumber = (ImageSizes.totalLineNumberMargin) + ctx.measureText(String(options.firstLineNumber + getLineCount(data))).width;
+        lastLineNumber = ImageSizes.lineNumberMarginLeft +
+            ctx.measureText(
+                String(options.firstLineNumber + getLineCount(data))
+            ).width;
         lastX += lastLineNumber;
     }
 
@@ -150,5 +153,8 @@ export function evaluateHeight(data: (string | Token)[], width: number, font: Th
         lastLineNumber
     )[1];
 
-    return { height: lastY +ImageSizes.marginBottom + charHeight + backgroundPadding.bottom, lineNumberWidth: lastLineNumber };
+    return {
+        height: lastY + ImageSizes.marginBottom + charHeight + backgroundPadding.bottom,
+        lineNumberWidth: lastLineNumber
+    };
 }
