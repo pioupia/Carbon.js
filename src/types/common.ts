@@ -12,14 +12,17 @@ export enum ImageSizes {
     lineNumberMarginLeft = 20
 }
 
-export interface Options extends Partial<LineOptions>{
+export interface Options extends Partial<OpenLineOptions>{
     theme?: ThemeBuilder;
     width?: number;
     title?: string;
 }
 
-export interface LineOptions {
+export interface OpenLineOptions {
     lineNumbers: boolean;
     firstLineNumber: number;
+}
+
+export interface LineOptions extends OpenLineOptions{
     lineNumberWidth: number;
 }
