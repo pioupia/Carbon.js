@@ -48,7 +48,7 @@ function drawText(
                 const lineNumber = String(options.firstLineNumber++);
 
                 ctx.fillStyle = fgColor;
-                ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMargin, lastY);
+                ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMarginLeft, lastY);
 
                 ctx.fillStyle = previousFillStyle;
             }
@@ -229,7 +229,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
         ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
         const lineNumber = String(lineOptions.firstLineNumber++);
-        ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMargin - ImageSizes.marginLeft, lastY);
+        ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMarginLeft - ImageSizes.marginLeft, lastY);
 
         lastX += lineNumberWidth;
     }
