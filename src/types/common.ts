@@ -9,7 +9,7 @@ export enum ImageSizes {
     headerHeight = 12.5,
     headerBottomMargin = 20,
     textLineHeight = 19.2,
-    lineNumberMargin = 10,
+    lineNumberMargin = 20,
     totalLineNumberMargin = 2*lineNumberMargin
 }
 
@@ -22,4 +22,5 @@ export interface Options extends Partial<LineOptions>{
 export interface LineOptions {
     lineNumbers: boolean;
     firstLineNumber: number;
+    lineNumberWidth: number;
 }

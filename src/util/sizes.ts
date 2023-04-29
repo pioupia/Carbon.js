@@ -15,7 +15,7 @@ function getIterateThroughParts(
     charHeight: number,
     width: number,
     backgroundPadding: backgroundPadding,
-    options: LineOptions
+    lineNumberWidth: number
 ): [number, number] {
     for (const part of data) {
         if (typeof part === "string") {
@@ -27,7 +27,7 @@ function getIterateThroughParts(
                 lastY,
                 width,
                 backgroundPadding,
-                options
+                lineNumberWidth
             );
         } else {
             if (Array.isArray(part.content)) {
@@ -39,7 +39,7 @@ function getIterateThroughParts(
                     charHeight,
                     width,
                     backgroundPadding,
-                    options
+                    lineNumberWidth
                 );
                 continue;
             }
@@ -52,7 +52,7 @@ function getIterateThroughParts(
                 lastY,
                 width,
                 backgroundPadding,
-                options,
+                lineNumberWidth,
                 part.length
             );
         }
@@ -69,7 +69,7 @@ function getHeightOfAText(
     lastY: number,
     width: number,
     backgroundPadding: backgroundPadding,
-    options: LineOptions,
+    lineNumberWidth: number,
     textLength?: number
 ): [number, number] {
     textLength ||= text.length;
@@ -78,23 +78,15 @@ function getHeightOfAText(
     for (let i = 0; i < textLength; i++) {
         const charWidth = ctx.measureText(text[i] as string).width;
         const isBreakLine = text[i] === "\n";
-        const lineOptionWidth = options.lineNumbers ?
-            (
-                ctx.measureText(
-                    String(
-                        isBreakLine ? options.firstLineNumber++ : options.firstLineNumber
-                    )
-                ).width + ImageSizes.totalLineNumberMargin
-            ) : 0;
 
         if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
 
-        if ((lastX + charWidth + ImageSizes.marginRight > width - lineOptionWidth) || isBreakLine) {
+        if ((lastX + charWidth + ImageSizes.marginRight > width - lineNumberWidth) || isBreakLine) {
             const sentenceWidth = ctx.measureText(
                 text.slice(0, lastIndexSpace)
             ).width;
             let cuttingIndex = i;
-            if (sentenceWidth + lastY + ImageSizes.marginRight <= width - lineOptionWidth) {
+            if (sentenceWidth + lastY + ImageSizes.marginRight <= width - lineNumberWidth) {
                 cuttingIndex = lastIndexSpace;
             }
 
@@ -103,13 +95,29 @@ function getHeightOfAText(
             i -= cuttingIndex;
 
             lastY += ImageSizes.textLineHeight + charHeight;
-            lastX = ImageSizes.marginLeft + backgroundPadding.left + charWidth + lineOptionWidth;
+            lastX = ImageSizes.marginLeft + backgroundPadding.left + charWidth + lineNumberWidth;
         }
 
         lastX += charWidth;
     }
 
     return [lastX, lastY];
+}
+
+function getLineCount(data: (string | Token)[]): number {
+    return data.reduce((prev, curr) => {
+        let more;
+
+        if (typeof curr === "string") {
+            more = curr.replace(/[^\n]/g, '').length;
+        } else if (typeof curr.content === "string") {
+            more = curr.content.replace(/[^\n]/g, '').length;
+        } else {
+            more = getLineCount(curr.content as Token[]);
+        }
+
+        return prev + more;
+    }, 0)
 }
 
 export function evaluateHeight(data: (string | Token)[], width: number, font: ThemeDataProperties, backgroundPadding: backgroundPadding, options: LineOptions) {
@@ -124,9 +132,11 @@ export function evaluateHeight(data: (string | Token)[], width: number, font: Th
     ctx.font = font.fontSize + "px " + font.fontName;
 
     const charHeight = getCharHeight(ctx.measureText("]"));
+    let lastLineNumber = 0;
 
     if (options.lineNumbers) {
-        lastX += (ImageSizes.totalLineNumberMargin) + ctx.measureText(String(options.firstLineNumber)).width;
+        lastLineNumber = (ImageSizes.totalLineNumberMargin) + ctx.measureText(String(options.firstLineNumber + getLineCount(data))).width;
+        lastX += lastLineNumber;
     }
 
     lastY = getIterateThroughParts(
@@ -135,9 +145,10 @@ export function evaluateHeight(data: (string | Token)[], width: number, font: Th
         lastX,
         lastY,
         charHeight,
-        width - backgroundPadding.right, backgroundPadding,
-        options
+        width - backgroundPadding.right,
+        backgroundPadding,
+        lastLineNumber
     )[1];
 
-    return lastY + ImageSizes.marginBottom + charHeight + backgroundPadding.bottom;
+    return { height: lastY +ImageSizes.marginBottom + charHeight + backgroundPadding.bottom, lineNumberWidth: lastLineNumber };
 }
