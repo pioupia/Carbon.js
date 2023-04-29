@@ -17,23 +17,15 @@ function drawText(
     for (let i = 0; i < textLength; i++) {
         const charWidth = ctx.measureText(text[i] as string).width;
         const isBreakLine = text[i] === "\n";
-        const lineOptionWidth = options.lineNumbers ?
-            (
-                ctx.measureText(
-                    String(
-                        options.firstLineNumber
-                    )
-                ).width + ImageSizes.totalLineNumberMargin
-            ) : 0;
 
         if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
 
-        if ((lastX + charWidth + ImageSizes.marginRight > width - lineOptionWidth) || isBreakLine) {
+        if ((lastX + charWidth + ImageSizes.marginRight > width - options.lineNumberWidth) || isBreakLine) {
             const sentenceWidth = ctx.measureText(
                 text.slice(0, lastIndexSpace)
             ).width;
             let cuttingIndex = i;
-            if (sentenceWidth + lastY + ImageSizes.marginRight <= width - lineOptionWidth) {
+            if (sentenceWidth + lastY + ImageSizes.marginRight <= width - options.lineNumberWidth) {
                 cuttingIndex = lastIndexSpace;
             }
 
@@ -61,7 +53,7 @@ function drawText(
                 ctx.fillStyle = previousFillStyle;
             }
 
-            lastX += lineOptionWidth + ImageSizes.marginLeft;
+            lastX += options.lineNumberWidth + ImageSizes.marginLeft;
         }
 
         lastX += charWidth;
@@ -203,13 +195,15 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     const customThemeProperties = customTheme.getFont();
     const backgroundPadding = customTheme.getBackgroundPadding();
     const backgroundProperties = customTheme.getBackgroundProperties();
-    const lineOptions: LineOptions = { lineNumbers: options?.lineNumbers || false, firstLineNumber: options?.firstLineNumber ?? 1 };
 
     width += backgroundPadding.left + backgroundPadding.right;
 
+    const { height, lineNumberWidth } = evaluateHeight(data, width, customThemeProperties, backgroundPadding, { lineNumbers: <boolean>options.lineNumbers, firstLineNumber: <number>options.firstLineNumber, lineNumberWidth: 0 });
+    const lineOptions: LineOptions = { lineNumbers: options?.lineNumbers || false, firstLineNumber: options?.firstLineNumber ?? 1, lineNumberWidth };
+
     const canvas = createCanvas(
         width,
-        evaluateHeight(data, width, customThemeProperties, backgroundPadding, { lineNumbers: <boolean>options.lineNumbers, firstLineNumber: <number>options.firstLineNumber })
+        height
     );
     const ctx = canvas.getContext("2d");
 
@@ -237,7 +231,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
         const lineNumber = String(lineOptions.firstLineNumber++);
         ctx.fillText(lineNumber, lastX + ImageSizes.lineNumberMargin - ImageSizes.marginLeft, lastY);
 
-        lastX += ImageSizes.totalLineNumberMargin + ctx.measureText(lineNumber).width;
+        lastX += lineNumberWidth;
     }
 
     iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, canvas.width - backgroundPadding.right, backgroundPadding, lineOptions);
