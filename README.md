@@ -57,6 +57,8 @@ render(code: string, language: Grammar, options?: Options): Canvas
   * title - The title of the window.
   * theme – The custom theme you want to apply to this image.
   * width – The custom with of the image (default: 750px)
+  * lineNumbers - Enable the line number (default: false)
+  * firstLineNumber - The number of the first line (default: 1)
 
 
 
