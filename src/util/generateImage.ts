@@ -198,7 +198,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
 
     width += backgroundPadding.left + backgroundPadding.right;
 
-    const { height, lineNumberWidth } = evaluateHeight(data, width, customThemeProperties, backgroundPadding, { lineNumbers: <boolean>options.lineNumbers, firstLineNumber: <number>options.firstLineNumber, lineNumberWidth: 0 });
+    const { height, lineNumberWidth } = evaluateHeight(data, width, customThemeProperties, backgroundPadding, { lineNumbers: options?.lineNumbers || false, firstLineNumber: options?.firstLineNumber ?? 1, lineNumberWidth: 0 });
     const lineOptions: LineOptions = { lineNumbers: options?.lineNumbers || false, firstLineNumber: options?.firstLineNumber ?? 1, lineNumberWidth };
 
     const canvas = createCanvas(
@@ -214,7 +214,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fontName;
     ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
-    drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties, options.title);
+    drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties, options?.title);
 
     let lastX = ImageSizes.marginLeft + backgroundPadding.left;
     let lastY =
@@ -225,7 +225,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
 
     const charHeight = getCharHeight(ctx.measureText("]"));
 
-    if (options.lineNumbers) {
+    if (options?.lineNumbers) {
         ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
         const lineNumber = String(lineOptions.firstLineNumber++);
