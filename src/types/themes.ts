@@ -127,6 +127,10 @@ interface ThemeDataColorText {
      */
     entity: string;
     /**
+     * Color for the titles (Markdown)
+     */
+    title: string;
+    /**
      * Color with bold text (Markdown)
      */
     bold: string;
@@ -134,6 +138,10 @@ interface ThemeDataColorText {
      * Color with italic text (Markdown)
      */
     italic: string;
+    /**
+     * Color for the content (markdown)
+     */
+    content: string;
     /**
      * Color of atrule (`@` rules in stylesheet).
      * @examples
