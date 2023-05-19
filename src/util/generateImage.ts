@@ -3,7 +3,8 @@ import type { Token } from "prismjs";
 import { ImageSizes, LineOptions, Options } from "../types/common";
 import { evaluateHeight, getCharHeight } from "./sizes";
 import { ThemeBuilder } from "../managers/ThemeBuilder";
-import {backgroundPadding, BackgroundProperties, ThemeDataColor} from "../types/themes";
+import { backgroundPadding, BackgroundProperties, ThemeDataColor, ThemeDataProperties } from "../types/themes";
+import { getStyle } from "./common";
 
 function drawText(
     ctx: CanvasRenderingContext2D, charHeight: number,
@@ -145,14 +146,22 @@ function iterateThroughParts(
     charHeight: number, width: number,
     backgroundPadding: backgroundPadding,
     options: LineOptions,
+    customThemeProperties: Readonly<ThemeDataProperties>,
     generalType?: string): [number, number] {
 
     for (const part of data) {
         const isString = typeof part === "string";
 
         if (isString && !generalType) {
+            const isSpecialStyle = part === "italic" || part === "bold";
+            const isItalic = isSpecialStyle ? part === "italic" : isSpecialStyle;
+
+            if (isSpecialStyle) ctx.font = customThemeProperties.fontSize + "px " + getStyle(isItalic, customThemeProperties);
+
             ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
             [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width, backgroundPadding, options, customThemeColors.window.defaultForegroundColor);
+
+            if(isSpecialStyle) ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fonts.get('normal-normal');
         } else {
             ctx.fillStyle = customThemeColors.text[(((part as Token).type) || generalType) as keyof typeof customThemeColors.text] || customThemeColors.window.defaultForegroundColor;
 
@@ -167,6 +176,7 @@ function iterateThroughParts(
                     width,
                     backgroundPadding,
                     options,
+                    customThemeProperties,
                     part.type
                 );
                 continue;
@@ -234,7 +244,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
         lastX += lineNumberWidth;
     }
 
-    iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, canvas.width - backgroundPadding.right, backgroundPadding, lineOptions);
+    iterateThroughParts(ctx, data, customThemeColors, lastX, lastY, charHeight, canvas.width - backgroundPadding.right, backgroundPadding, lineOptions, customThemeProperties);
 
     return canvas;
 }
