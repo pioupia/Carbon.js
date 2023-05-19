@@ -43,7 +43,7 @@ describe("Test evaluate the height of a text", () => {
                 parse(`const test = true;`, Languages.javascript.lang),
                 700,
                 {
-                    fontName: "Ubuntu",
+                    fonts: new Map([["normal-normal", "ubuntu"]]),
                     fontSize: 16
                 },
                 {
@@ -71,7 +71,7 @@ describe("Test evaluate the height of a text", () => {
                 700,
                 {
                     fontSize: 16,
-                    fontName: "Ubuntu"
+                    fonts: new Map([["normal-normal", "ubuntu"]])
                 },
                 {
                     left: 0,

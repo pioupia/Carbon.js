@@ -1,4 +1,11 @@
-import {BackgroundProperties, OptionalThemeData, ThemeData, ThemeDataColor, ThemeDataProperties} from "../types/themes";
+import {
+    BackgroundProperties, fontFamilyStyle,
+    fontFamilyWeight,
+    OptionalThemeData,
+    ThemeData,
+    ThemeDataColor,
+    ThemeDataProperties
+} from "../types/themes";
 import CarbonjsError from "../errors/CarbonjsErrors";
 import { deepFreeze, isValidColor } from "../util/common";
 import { registerFont } from "canvas";
@@ -65,7 +72,9 @@ export class ThemeBuilder {
             },
             properties: {
                 fontSize: 16,
-                fontName: "Ubuntu"
+                fonts: new Map([
+                    ['normal-normal', 'Ubuntu']
+                ])
             },
             background: {
                 backgroundColor: "#ABB8C3",
@@ -126,14 +135,16 @@ export class ThemeBuilder {
 
     /**
      * Set the theme font and register it.
-     * @param {string} path The path to the font file from the project root
      * @param fontName The name of the font
+     * @param {fontFamilyWeight=} fontWeight The font weight (lighter, normal, or bold).
+     * @param {fontFamilyStyle=} fontStyle The font style (italic, oblique or normal).
+     * @param {string=} path The path to the font file from the project root
      * @returns {ThemeBuilder}
      */
-    public setFontFamily(path: string, fontName: string): ThemeBuilder {
-        registerFont(path, { family: fontName });
+    public setFontFamily(fontName: string, fontWeight: fontFamilyWeight = "normal", fontStyle: fontFamilyStyle = "normal", path?: string): ThemeBuilder {
+        if (path) registerFont(path, { family: fontName, weight: fontWeight, style: fontStyle });
 
-        this.data.properties.fontName = fontName;
+        this.data.properties.fonts.set(`${fontWeight}-${fontStyle}`, fontName);
         return this;
     }
 
@@ -250,7 +261,7 @@ export class ThemeBuilder {
             },
             properties: {
                 fontSize: this.data.properties.fontSize,
-                fontName: this.data.properties.fontName
+                fonts: this.data.properties.fonts
             },
             background: {
                 backgroundColor: this.data.background.backgroundColor,

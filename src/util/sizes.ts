@@ -129,7 +129,7 @@ export function evaluateHeight(data: (string | Token)[], width: number, font: Th
         backgroundPadding.top;
 
     const ctx = createCanvas(200, 200).getContext("2d");
-    ctx.font = font.fontSize + "px " + font.fontName;
+    ctx.font = font.fontSize + "px " + font.fonts.get('normal-normal');
 
     const charHeight = getCharHeight(ctx.measureText("]"));
     let lastLineNumber = 0;
