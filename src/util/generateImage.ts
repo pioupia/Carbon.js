@@ -153,7 +153,7 @@ function iterateThroughParts(
         const isString = typeof part === "string";
 
         if (isString && !generalType) {
-            const isSpecialStyle = part === "italic" || part === "bold";
+            const isSpecialStyle = part === "italic" || part === "bold" || part === "title";
             const isItalic = isSpecialStyle ? part === "italic" : isSpecialStyle;
 
             if (isSpecialStyle) ctx.font = customThemeProperties.fontSize + "px " + getStyle(isItalic, customThemeProperties);
