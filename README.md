@@ -75,7 +75,7 @@ theme.setColor("backgroundColor", "#28211cd0") // Set the new Window Background 
     .setColor("keyword", "#5ea6ea") // Set the new 'keyword' color
     .setFontSize(20) // Set the font-size to 20.
     // /!\ The path is relative to the root of the project /!\
-    .setFontFamily("./Gravity-Bold.otf", "Gravity Bold") // Change the font to Gravity-Bold
+    .setFontFamily("Gravity Bold", "bold", "", "./Gravity-Bold.otf") // Change the font to Gravity-Bold
     // Need a valid color (hex, rgb, rgba, hsl, et hsla are accepted)
     .setColor("string", "#54be0d")
     .setColor("titleColor", "rgba(0, 0, 0, .35)")
