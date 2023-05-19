@@ -211,7 +211,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     ctx.fillStyle = backgroundProperties.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fontName;
+    ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fonts.get('normal-normal');
     ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
     drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties, options?.title);

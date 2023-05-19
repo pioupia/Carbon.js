@@ -219,9 +219,9 @@ export interface ThemeDataProperties {
      */
     fontSize: number;
     /**
-     * The font name used for the theme
+     * The fonts used for the theme
      */
-    fontName: string;
+    fonts: Map<fontFamilyMapName<fontFamilyWeight, fontFamilyStyle>, string>;
 }
 
 export interface ThemeData {
@@ -339,3 +339,7 @@ export interface backgroundPadding {
      */
     right: number;
 }
+
+export type fontFamilyMapName<W extends fontFamilyWeight, S extends fontFamilyStyle> = `${W}-${S}`;
+export type fontFamilyWeight = "lighter" | "normal" | "bold" | "bolder";
+export type fontFamilyStyle = "italic" | "oblique" | "normal";
