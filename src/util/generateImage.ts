@@ -161,7 +161,7 @@ function iterateThroughParts(
             ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
             [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width, backgroundPadding, options, customThemeColors.window.defaultForegroundColor);
 
-            if(isSpecialStyle) ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fonts.get('normal-normal');
+            if(isSpecialStyle) ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fonts.default;
         } else {
             ctx.fillStyle = customThemeColors.text[(((part as Token).type) || generalType) as keyof typeof customThemeColors.text] || customThemeColors.window.defaultForegroundColor;
 
@@ -221,7 +221,7 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
     ctx.fillStyle = backgroundProperties.backgroundColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fonts.get('normal-normal');
+    ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fonts.default;
     ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
 
     drawTheWindow(canvas, ctx, customThemeColors, backgroundProperties, options?.title);
