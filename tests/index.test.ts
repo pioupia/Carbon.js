@@ -155,7 +155,9 @@ describe("Create a custom theme", () => {
             },
             properties: {
                 fontSize: 16,
-                fontName: "Ubuntu"
+                fonts: {
+                    default: "Ubuntu"
+                }
             },
             background: {
                 backgroundColor: "#ABB8C3",
@@ -234,7 +236,9 @@ describe("Create a custom theme", () => {
             },
             properties: {
                 fontSize: 16,
-                fontName: "Ubuntu"
+                fonts: {
+                    default: "Ubuntu"
+                }
             },
             background: {
                 backgroundColor: "#ABB8C3",
