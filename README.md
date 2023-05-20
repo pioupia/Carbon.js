@@ -77,7 +77,7 @@ theme.setColor("backgroundColor", "#28211cd0") // Set the new Window Background 
     // /!\ The path is relative to the root of the project /!\
     .setFontFamily("Gravity", "default", "./Gravity-Light.otf") // Change the default font to Gravity-Light
     .setFontFamily("Gravity Italic", "italic", "./Gravity-Italic.otf") // Change the italic font (for Markdown) to Gravity-Italic
-    .setFontFamily("Ubuntu Bold", "bold") // Change the bold font (for Markdown) to Ubuntu Bold (by default installed on the system)
+    .setFontFamily("Ubuntu", "bold") // Change the bold font (for Markdown) to Ubuntu Bold (by default installed on the system)
     // Need a valid color (hex, rgb, rgba, hsl, et hsla are accepted)
     .setColor("string", "#54be0d")
     .setColor("titleColor", "rgba(0, 0, 0, .35)")
