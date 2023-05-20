@@ -53,9 +53,7 @@ export function loadLanguage(lang: LanguageObject): void {
 
 export function getStyle(isItalic: boolean, properties: ThemeDataProperties) {
     const { fonts } = properties;
-    if (isItalic) {
-        return fonts.get('lighter-italic') || fonts.get('normal-italic') || fonts.get('bold-italic') || fonts.get('bolder-italic');
-    }
+    if (isItalic) return fonts.italic || fonts.default;
 
-    return fonts.get('bold-normal') || fonts.get('bold-italic') || fonts.get('bold-oblique');
+    return fonts.bold || fonts.default;
 }

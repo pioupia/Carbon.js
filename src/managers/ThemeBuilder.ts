@@ -1,10 +1,10 @@
 import {
-    BackgroundProperties, fontFamilyStyle,
-    fontFamilyWeight,
+    BackgroundProperties,
     OptionalThemeData,
     ThemeData,
     ThemeDataColor,
-    ThemeDataProperties
+    ThemeDataProperties,
+    fontStyle
 } from "../types/themes";
 import CarbonjsError from "../errors/CarbonjsErrors";
 import { deepFreeze, isValidColor } from "../util/common";
@@ -72,9 +72,9 @@ export class ThemeBuilder {
             },
             properties: {
                 fontSize: 16,
-                fonts: new Map([
-                    ['normal-normal', 'Ubuntu']
-                ])
+                fonts: {
+                    default: 'Ubuntu'
+                }
             },
             background: {
                 backgroundColor: "#ABB8C3",
@@ -141,10 +141,10 @@ export class ThemeBuilder {
      * @param {string=} path The path to the font file from the project root
      * @returns {ThemeBuilder}
      */
-    public setFontFamily(fontName: string, fontWeight: fontFamilyWeight = "normal", fontStyle: fontFamilyStyle = "normal", path?: string): ThemeBuilder {
-        if (path) registerFont(path, { family: fontName, weight: fontWeight, style: fontStyle });
+    public setFontFamily(fontName: string, fontStyle: fontStyle = "default", path?: string): ThemeBuilder {
+        if (path) registerFont(path, { family: fontName });
 
-        this.data.properties.fonts.set(`${fontWeight}-${fontStyle}`, fontName);
+        this.data.properties.fonts[fontStyle] = fontName;
         return this;
     }
 
