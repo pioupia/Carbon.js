@@ -51,7 +51,7 @@ export function loadLanguage(lang: LanguageObject): void {
     Languages[lang.name as keyof typeof Languages].lang = languages[lang.name];
 }
 
-export function getStyle(isItalic: boolean, properties: ThemeDataProperties) {
+export function getFont(isItalic: boolean, properties: ThemeDataProperties) {
     const { fonts } = properties;
     if (isItalic) return fonts.italic || fonts.default;
 

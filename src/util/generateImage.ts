@@ -4,7 +4,7 @@ import { ImageSizes, LineOptions, Options } from "../types/common";
 import { evaluateHeight, getCharHeight } from "./sizes";
 import { ThemeBuilder } from "../managers/ThemeBuilder";
 import { backgroundPadding, BackgroundProperties, ThemeDataColor, ThemeDataProperties } from "../types/themes";
-import { getStyle } from "./common";
+import { getFont } from "./common";
 
 function drawText(
     ctx: CanvasRenderingContext2D, charHeight: number,
@@ -153,18 +153,9 @@ function iterateThroughParts(
         const isString = typeof part === "string";
 
         if (isString && !generalType) {
-            const isSpecialStyle = part === "italic" || part === "bold" || part === "title";
-            const isItalic = isSpecialStyle ? part === "italic" : isSpecialStyle;
-
-            if (isSpecialStyle) ctx.font = customThemeProperties.fontSize + "px " + getStyle(isItalic, customThemeProperties);
-
             ctx.fillStyle = customThemeColors.window.defaultForegroundColor;
             [lastX, lastY] = drawText(ctx, charHeight, part, lastX, lastY, width, backgroundPadding, options, customThemeColors.window.defaultForegroundColor);
-
-            if(isSpecialStyle) ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fonts.default;
         } else {
-            ctx.fillStyle = customThemeColors.text[(((part as Token).type) || generalType) as keyof typeof customThemeColors.text] || customThemeColors.window.defaultForegroundColor;
-
             if (!isString && Array.isArray(part.content)) {
                 [lastX, lastY] = iterateThroughParts(
                     ctx,
@@ -182,6 +173,16 @@ function iterateThroughParts(
                 continue;
             }
 
+            const partType = typeof part !== "string" ? part.type : generalType;
+            const isSpecialStyle = partType === "italic" || partType === "bold" || partType === "title";
+            const isItalic = isSpecialStyle ? partType === "italic" : isSpecialStyle;
+
+            if (isSpecialStyle) {
+                ctx.font = (isItalic ? 'italic ' : 'bold ') + customThemeProperties.fontSize + "px " + getFont(isItalic, customThemeProperties);
+            }
+
+            ctx.fillStyle = customThemeColors.text[(((part as Token).type) || generalType) as keyof typeof customThemeColors.text] || customThemeColors.window.defaultForegroundColor;
+
             [lastX, lastY] = drawText(
                 ctx,
                 charHeight,
@@ -194,6 +195,8 @@ function iterateThroughParts(
                 customThemeColors.window.defaultForegroundColor,
                 part.length
             );
+
+            if (isSpecialStyle) ctx.font = customThemeProperties.fontSize + "px " + customThemeProperties.fonts.default;
         }
     }
 
@@ -208,8 +211,19 @@ export function draw(data: (string | Token)[], customTheme: ThemeBuilder, width:
 
     width += backgroundPadding.left + backgroundPadding.right;
 
-    const { height, lineNumberWidth } = evaluateHeight(data, width, customThemeProperties, backgroundPadding, { lineNumbers: options?.lineNumbers || false, firstLineNumber: options?.firstLineNumber ?? 1, lineNumberWidth: 0 });
-    const lineOptions: LineOptions = { lineNumbers: options?.lineNumbers || false, firstLineNumber: options?.firstLineNumber ?? 1, lineNumberWidth };
+    const {
+        height,
+        lineNumberWidth
+    } = evaluateHeight(data, width, customThemeProperties, backgroundPadding, {
+        lineNumbers: options?.lineNumbers || false,
+        firstLineNumber: options?.firstLineNumber ?? 1,
+        lineNumberWidth: 0
+    });
+    const lineOptions: LineOptions = {
+        lineNumbers: options?.lineNumbers || false,
+        firstLineNumber: options?.firstLineNumber ?? 1,
+        lineNumberWidth
+    };
 
     const canvas = createCanvas(
         width,

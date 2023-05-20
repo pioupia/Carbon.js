@@ -136,13 +136,14 @@ export class ThemeBuilder {
     /**
      * Set the theme font and register it.
      * @param fontName The name of the font
-     * @param {fontFamilyWeight=} fontWeight The font weight (lighter, normal, or bold).
-     * @param {fontFamilyStyle=} fontStyle The font style (italic, oblique or normal).
+     * @param {string=} fontStyle The font style (default, bold or italic) - used for the Markdown.
+     * @param {string=} weight The font weight (lighter, normal, or bold).
+     * @param {string=} style The font style (italic, oblique or normal).
      * @param {string=} path The path to the font file from the project root
      * @returns {ThemeBuilder}
      */
-    public setFontFamily(fontName: string, fontStyle: fontStyle = "default", path?: string): ThemeBuilder {
-        if (path) registerFont(path, { family: fontName });
+    public setFontFamily(fontName: string, fontStyle: fontStyle = "default", weight?: string, style?: string, path?: string): ThemeBuilder {
+        if (path) registerFont(path, { family: fontName, weight, style });
 
         this.data.properties.fonts[fontStyle] = fontName;
         return this;
