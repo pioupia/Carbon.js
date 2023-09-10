@@ -61,7 +61,12 @@ function drawText(
     }
 
     if (text && text !== "\n") {
-        ctx.fillText(text, lastX - ctx.measureText(text).width, lastY);
+        const textSize = ctx.measureText(text).width;
+
+        if (lastX - textSize < 0)
+            lastX = backgroundPadding.left + options.lineNumberWidth + ImageSizes.marginLeft + textSize;
+
+        ctx.fillText(text, lastX - textSize, lastY);
     }
 
     return [lastX, lastY];
