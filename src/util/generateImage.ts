@@ -19,27 +19,24 @@ function drawText(
         const charWidth = ctx.measureText(text[i] as string).width;
         const isBreakLine = text[i] === "\n";
 
-        if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
+        if (text[i] === " " || isBreakLine)
+			lastIndexSpace = i + 1;
 
         if ((lastX + charWidth + ImageSizes.marginRight > width - options.lineNumberWidth) || isBreakLine) {
             const sentenceWidth = ctx.measureText(
                 text.slice(0, lastIndexSpace)
             ).width;
-            let cuttingIndex = i;
-            if (sentenceWidth + lastY + ImageSizes.marginRight <= width - options.lineNumberWidth) {
-                cuttingIndex = lastIndexSpace;
-            }
 
-            const printedText = text.slice(0, cuttingIndex)?.replace(/\n/g, "");
+			const printedText = text.slice(0, lastIndexSpace)?.replace(/\n/g, "");
             ctx.fillText(
                 printedText,
                 lastX - ctx.measureText(printedText).width,
                 lastY
             );
 
-            text = text.slice(cuttingIndex);
-            textLength -= cuttingIndex;
-            i -= cuttingIndex;
+            text = text.slice(lastIndexSpace);
+            textLength -= lastIndexSpace;
+            i -= lastIndexSpace;
 
             lastY += ImageSizes.textLineHeight + charHeight;
             lastX = backgroundPadding.left + charWidth;
