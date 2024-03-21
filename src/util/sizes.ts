@@ -79,20 +79,17 @@ function getHeightOfAText(
         const charWidth = ctx.measureText(text[i] as string).width;
         const isBreakLine = text[i] === "\n";
 
-        if (text[i] === " " || isBreakLine) lastIndexSpace = i + 1;
+        if (text[i] === " " || isBreakLine)
+			lastIndexSpace = i + 1;
 
         if ((lastX + charWidth + ImageSizes.marginRight > width - lineNumberWidth) || isBreakLine) {
             const sentenceWidth = ctx.measureText(
                 text.slice(0, lastIndexSpace)
             ).width;
-            let cuttingIndex = i;
-            if (sentenceWidth + lastY + ImageSizes.marginRight <= width - lineNumberWidth) {
-                cuttingIndex = lastIndexSpace;
-            }
 
-            text = text.slice(cuttingIndex);
-            textLength -= cuttingIndex;
-            i -= cuttingIndex;
+            text = text.slice(lastIndexSpace);
+            textLength -= lastIndexSpace;
+            i -= lastIndexSpace;
 
             lastY += ImageSizes.textLineHeight + charHeight;
             lastX = ImageSizes.marginLeft + backgroundPadding.left + charWidth + lineNumberWidth;
