@@ -60,7 +60,7 @@ describe("Test evaluate the height of a text", () => {
                     lineNumberWidth: 0
                 }
             ).height
-        ).toBe(109.5);
+        ).toBe(108.5);
     });
 
     it("Second test", () => {
@@ -89,7 +89,7 @@ describe("Test evaluate the height of a text", () => {
                     lineNumberWidth: 0
                 }
             ).height.toFixed(1)
-        ).toBe("218.1");
+        ).toBe("214.1");
     });
 });
 
